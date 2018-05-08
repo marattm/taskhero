@@ -80,6 +80,19 @@ if [ "" == "$PKG_OK" ]; then
     sudo chmod +x /usr/local/bin/docker-compose
 fi
 
+
+### Docker Machine
+PACKAGE_NAME="docker-machine"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE_NAME|grep "install ok installed")
+echo Checking for $PACKAGE_NAME: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+    base=https://github.com/docker/machine/releases/download/v0.14.0 &&
+    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+    echo
+fi
+
+
 ### Postgres
 PACKAGE_NAME="psql"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE_NAME|grep "install ok installed")
@@ -90,3 +103,12 @@ if [ "" == "$PKG_OK" ]; then
     sudo update-rc.d postgresql enable
     sudo service postgresql start
 fi
+
+# ### VirtualBox
+# PACKAGE_NAME="virtualbox"
+# PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE_NAME|grep "install ok installed")
+# echo Checking for $PACKAGE_NAME: $PKG_OK
+# if [ "" == "$PKG_OK" ]; then
+#     echo "$PACKAGE_NAME. Setting up $PACKAGE_NAME."
+#     sudo apt-get install virtualbox -y
+# fi
