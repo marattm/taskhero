@@ -25,3 +25,8 @@ docker-compose -f docker-compose-dev.yml \
     docker-compose -f docker-compose-dev.yml \
         run users python manage.py test
     
+    # deployment
+    docker-machine create --driver amazonec2 testdriven-prod
+    docker-machine env testdriven-prod
+    eval $(docker-machine env testdriven-prod)
+    docker-machine ls

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# checkup
+# checkup dev
 
 
 docker-compose -f docker-compose-dev.yml up -d --build
