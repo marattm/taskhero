@@ -19,3 +19,9 @@ docker-compose -f docker-compose-dev.yml \
     \c users_dev
     \dt
     \q
+
+
+    # testing 
+    docker-compose -f docker-compose-dev.yml \
+        run users python manage.py test
+    
