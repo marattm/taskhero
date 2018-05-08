@@ -30,3 +30,4 @@ docker-compose -f docker-compose-dev.yml \
     docker-machine env testdriven-prod
     eval $(docker-machine env testdriven-prod)
     docker-machine ls
+    docker-machine active # update the active host
