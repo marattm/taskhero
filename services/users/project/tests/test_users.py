@@ -31,7 +31,7 @@ class TestUserService(BaseTestCase):
             'password': 'test123',
             'confirm': 'test123'
         }
-        
+
     def test_users(self):
         """Ensure the /ping route behaves correctly."""
         rv = self.client.get('/users/ping')
@@ -50,7 +50,8 @@ class TestUserService(BaseTestCase):
             )
             data = json.loads(rv.data.decode())
             self.assertEqual(rv.status_code, 201)
-            self.assertIn('{} was added!'.format(self.user_json()['email']), data['message'])
+            self.assertIn('{} was added!'.format(self.user_json()['email']),
+                                                data['message'])
             self.assertIn('success', data['status'])
 
     def test_add_user_invalid_json(self):
@@ -65,7 +66,7 @@ class TestUserService(BaseTestCase):
             self.assertEqual(rv.status_code, 400)
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
-    
+
     def test_add_user_invalid_json_keys(self):
         """
         Ensure error is thrown if the JSON object does not have a username key.
@@ -102,15 +103,20 @@ class TestUserService(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
-        user = User(username='{}'.format(self.user_json()['username']), email='{}'.format(self.user_json()['email']))
+        user = User(
+                    username='{}'.format(self.user_json()['username']),
+                    email='{}'.format(self.user_json()['email'])
+                    )
         db.session.add(user)
         db.session.commit()
         with self.client:
             rv = self.client.get(f'/users/{user.id}')
             data = json.loads(rv.data.decode())
             self.assertEqual(rv.status_code, 200)
-            self.assertIn('{}'.format(self.user_json()['username']), data['data']['username'])
-            self.assertIn('{}'.format(self.user_json()['email']), data['data']['email'])
+            self.assertIn('{}'.format(self.user_json()['username']),
+                         data['data']['username'])
+            self.assertIn('{}'.format(self.user_json()['email']),
+                         data['data']['email'])
             self.assertIn('success', data['status'])
 
     def test_single_user_no_id(self):
@@ -122,7 +128,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_single_user_incorrect_id(self):
         """Ensure error is thrown if the id does not exist."""
         with self.client:
@@ -132,7 +137,13 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
-
+    def test_main_no_users(self):
+        """Ensure the main route behaves correctly when no users have been
+        added to the database."""
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<h1>All Users</h1>', response.data)
+        self.assertIn(b'<p>No users!</p>', response.data)
 
 
 if __name__ == '__main__':

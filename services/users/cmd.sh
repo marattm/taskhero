@@ -25,9 +25,30 @@ docker-compose -f docker-compose-dev.yml \
     docker-compose -f docker-compose-dev.yml \
         run users python manage.py test
     
-    # deployment
-    docker-machine create --driver amazonec2 testdriven-prod
-    docker-machine env testdriven-prod
-    eval $(docker-machine env testdriven-prod)
+    #  dev env machine
+    docker-machine create -d virtualbox trainme-dev
+    docker-machine env trainme-prod
+    eval $(docker-machine env trainme-dev)
     docker-machine ls
     docker-machine active # update the active host
+
+
+    # deployment prod machine
+    docker-machine create --driver amazonec2 trainme-prod
+    docker-machine env trainme-prod
+    eval $(docker-machine env trainme-prod)
+    docker-machine ls
+    docker-machine active # update the active host
+
+
+# stop and remove all container
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+# stop and remove all machine
+docker-machine stop $(docker-machine ls | grep trainme | awk '{print $1}')
+docker-machine rm -y $(docker-machine ls | grep trainme | awk '{print $1}')
+
+# lauch a machine 
+docker-machine create
+
