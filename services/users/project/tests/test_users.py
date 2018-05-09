@@ -51,7 +51,7 @@ class TestUserService(BaseTestCase):
             data = json.loads(rv.data.decode())
             self.assertEqual(rv.status_code, 201)
             self.assertIn('{} was added!'.format(self.user_json()['email']),
-                                                data['message'])
+                          data['message'])
             self.assertIn('success', data['status'])
 
     def test_add_user_invalid_json(self):
@@ -104,9 +104,9 @@ class TestUserService(BaseTestCase):
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
         user = User(
-                    username='{}'.format(self.user_json()['username']),
-                    email='{}'.format(self.user_json()['email'])
-                    )
+            username='{}'.format(self.user_json()['username']),
+            email='{}'.format(self.user_json()['email'])
+        )
         db.session.add(user)
         db.session.commit()
         with self.client:
@@ -114,9 +114,9 @@ class TestUserService(BaseTestCase):
             data = json.loads(rv.data.decode())
             self.assertEqual(rv.status_code, 200)
             self.assertIn('{}'.format(self.user_json()['username']),
-                         data['data']['username'])
+                          data['data']['username'])
             self.assertIn('{}'.format(self.user_json()['email']),
-                         data['data']['email'])
+                          data['data']['email'])
             self.assertIn('success', data['status'])
 
     def test_single_user_no_id(self):
