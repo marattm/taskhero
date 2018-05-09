@@ -13,3 +13,5 @@ Flask-Testing==0.6.2
 coverage==4.4.2
 flake8===3.5.0
 
+# debugging
+flask-debugtoolbar==0.10.1
