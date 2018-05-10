@@ -15,3 +15,6 @@ flake8===3.5.0
 
 # debugging
 flask-debugtoolbar==0.10.1
+
+# cross-origin
+flask-cors==3.0.3
