@@ -18,7 +18,7 @@ class App extends Component {
     componentDidMount() {
         this.getUsers();
     };
-    
+
     getUsers() {
         axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
             .then((res) => { this.setState({ users: res.data.data.users }); })
@@ -36,7 +36,7 @@ class App extends Component {
                 this.setState({ username: '', email: '' });
             })
             .catch((err) => { console.log(err); });
-    }
+    };
     handleChange(event) {
         const obj = {};
         obj[event.target.name] = event.target.value;

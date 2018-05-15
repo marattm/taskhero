@@ -18,6 +18,17 @@ def ping_pong():
     })
 
 
+@users_blueprint.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        db.session.add(User(username=username, email=email))
+        db.session.commit()
+    users = User.query.all()
+    return render_template('index.html', users=users)
+
+
 @users_blueprint.route('/users', methods=['POST'])
 def add_user():
     post_data = request.get_json()
@@ -81,14 +92,3 @@ def get_single_user(user_id):
             return jsonify(response_object), 200
     except ValueError:
         return jsonify(response_object), 404
-
-
-@users_blueprint.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        db.session.add(User(username=username, email=email))
-        db.session.commit()
-    users = User.query.all()
-    return render_template('index.html', users=users)

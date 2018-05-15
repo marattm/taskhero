@@ -27,7 +27,7 @@ docker-compose -f docker-compose-dev.yml \
     
     #  dev env machine
     docker-machine create -d virtualbox trainme-dev
-    docker-machine env trainme-prod
+    docker-machine env trainme-dev
     eval $(docker-machine env trainme-dev)
     docker-machine ls
     docker-machine active # update the active host
@@ -49,6 +49,6 @@ docker rm $(docker ps -a -q)
 docker-machine stop $(docker-machine ls | grep trainme | awk '{print $1}')
 docker-machine rm -y $(docker-machine ls | grep trainme | awk '{print $1}')
 
-# lauch a machine 
+# launch a machine 
 docker-machine create
 
