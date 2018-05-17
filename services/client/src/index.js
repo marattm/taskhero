@@ -10,7 +10,11 @@ class App extends Component {
         this.state = {
             users: [],
             username: '',
-            email: '',
+            first_name: '',
+            last_name: '',
+            bio: '',
+            created: '',
+            gender: ''
         };
         this.addUser = this.addUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -28,12 +32,16 @@ class App extends Component {
         event.preventDefault();
         const data = {
             username: this.state.username,
-            email: this.state.email
+            email: this.state.email,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            bio: this.state.bio,
+            gender: this.state.gender
         };
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
             .then((res) => {
                 this.getUsers();
-                this.setState({ username: '', email: '' });
+                this.setState({ username: '', email: '', first_name: '', last_name: '', bio: '', gender: '' });
             })
             .catch((err) => { console.log(err); });
     };
@@ -53,6 +61,10 @@ class App extends Component {
                         <AddUser
                             username={this.state.username}
                             email={this.state.email}
+                            first_name={this.state.first_name}
+                            last_name={this.state.last_name}
+                            bio={this.state.bio}
+                            gender={this.state.gender}
                             handleChange={this.handleChange}
                             addUser={this.addUser}
                         />
