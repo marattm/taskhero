@@ -35,7 +35,8 @@ class PasswordBaseForm(Form):
     ])
     confirm = PasswordField('Repeat Password')
 
-# very few lamguage have this multiple inheritance, so this form merge those two forms inherited
+# very few language have this multiple inheritance,
+# so this form merge those two forms inherited
 
 
 class RegisterForm(BaseUserForm, PasswordBaseForm):

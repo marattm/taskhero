@@ -16,7 +16,8 @@ class User(db.Model):
     created = db.Column(db.DateTime, nullable=False,
                         default=datetime.utcnow)
     email_confirmed = db.Column(db.Boolean(), nullable=True, default=False)
-    change_configuration = db.Column(db.String(128), nullable=True, default=False)
+    change_configuration = db.Column(db.String(128),
+                                     nullable=True, default=False)
     profile_image = db.Column(db.String(128), nullable=True, default=None)
     gender = db.Column(db.String(128), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)

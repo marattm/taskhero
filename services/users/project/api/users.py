@@ -25,8 +25,11 @@ def index():
         email = request.form['email']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
+        bio = request.form['bio']
+        gender = request.form['gender']
         db.session.add(User(username=username, email=email,
-                            first_name=first_name, last_name=last_name))
+                            first_name=first_name, last_name=last_name,
+                            bio=bio, gender=gender))
         db.session.commit()
     users = User.query.all()
     return render_template('index.html', users=users)
@@ -63,7 +66,8 @@ def add_user():
         user = User.query.filter_by(email=email).first()
         if not user:
             db.session.add(User(username=username, email=email,
-                                first_name=first_name, last_name=last_name, bio=bio, gender=gender))    
+                                first_name=first_name, last_name=last_name,
+                                bio=bio, gender=gender))
             db.session.commit()
             response_object['status'] = 'success'
             response_object['message'] = f'{email} was added!'
@@ -102,35 +106,35 @@ def add_user():
 #         return jsonify(response_object), 404
 
 
-@users_blueprint.route('/register', methods=('GET', 'POST'))
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
+# @users_blueprint.route('/register', methods=('GET', 'POST'))
+# def register():
+#     form = RegisterForm()
+#     if form.validate_on_submit():
 
-        # encrypt the password
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(
-            form.password.data.encode('utf-8'), salt)
-        code = str(uuid.uuid4())
+#         # encrypt the password
+#         salt = bcrypt.gensalt()
+#         hashed_password = bcrypt.hashpw(
+#             form.password.data.encode('utf-8'), salt)
+#         code = str(uuid.uuid4())
 
-        # write all the fields into the trainer model
-        user = User(
-            username=form.username.data.lower(),
-            password=hashed_password,
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            change_configuration={
-                "new_email": form.email.data.lower(),
-                "confirmation_code": code
-            }
-        )
+#         # write all the fields into the trainer model
+#         user = User(
+#             username=form.username.data.lower(),
+#             password=hashed_password,
+#             email=form.email.data,
+#             first_name=form.first_name.data,
+#             last_name=form.last_name.data,
+#             change_configuration={
+#                 "new_email": form.email.data.lower(),
+#                 "confirmation_code": code
+#             }
+#         )
 
-        # save all the modification into the database
-        user.save()
+#         # save all the modification into the database
+#         user.save()
 
-        message = "Sucessful"
-        return render_template('user/login.html', form=form, message=message)
-        # return render_template('user/user_registered.html', message=message)
-    return render_template('user/register.html', form=form)
-
+#         message = "Sucessful"
+#         return render_template('user/login.html', form=form, message=message)
+#         # return render_template('user/user_registered.html',
+#           message=message)
+#     return render_template('user/register.html', form=form)
