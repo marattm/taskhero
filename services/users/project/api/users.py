@@ -3,12 +3,18 @@
 
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
+from werkzeug import secure_filename
+import uuid
+import os
+
 from project.api.models import User
 from project import db
-
+from project.config import BaseConfig
+from project.utils import upload, email
 
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
+UPLOAD_FOLDER = BaseConfig.UPLOAD_FOLDER
 
 @users_blueprint.route('/users/ping', methods=['GET'])
 def ping_pong():
@@ -40,10 +46,24 @@ def add_user():
         return jsonify(response_object), 400
     username = post_data.get('username')
     email = post_data.get('email')
+    image_ts = 'None'
+    if request.files.get('photo'):
+        filename = secure_filename(form.image.data.filename)
+        file_path = os.path.join(
+            UPLOAD_FOLDER, username, filename)
+        image_ts = str(upload(
+            file_path, username))
     try:
-        user = User.query.filter_by(email=email).first()
+        email('marat.monnie@gmail.com', 'works', 'html', 'text')
+    except:
+        response_object['message'] = 'AWS fault!'
+        return jsonify(response_object), 401
+    try:
+        # user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if not user:
-            db.session.add(User(username=username, email=email))
+            db.session.add(
+                User(username=username, email=email, photo=image_ts))
             db.session.commit()
             response_object['status'] = 'success'
             response_object['message'] = f'{email} was added!'

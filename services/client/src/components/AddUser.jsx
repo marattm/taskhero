@@ -14,7 +14,7 @@ const AddUser = (props) => {
                     onChange={props.handleChange}
                 />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
                 <input
                     name="email"
                     className="form-control input-lg"
@@ -23,6 +23,17 @@ const AddUser = (props) => {
                     required
                     value={props.email}
                     onChange={props.handleChange}
+                />
+            </div> */}
+            <div className="form-group">
+                <input
+                    name="photo"
+                    className="form-control input-lg"
+                    type="file"
+                    placeholder="Choose a photo"
+                    multiple
+                    // value={}
+                    // onChange={}
                 />
             </div>
             <input

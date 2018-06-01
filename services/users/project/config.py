@@ -11,6 +11,13 @@ class BaseConfig:
     SECRET_KEY = 'password'
     DEBUG_TB_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    STATIC_IMAGE_URL = 'images'
+    UPLOAD_FOLDER = '/usr/src/app'
+    AWS_BUCKET = 'nathanpatchwork'
+    AWS_S3_CONTENT_URL = 'https://s3-us-west-2.amazonaws.com'
+    AWS_ACCESS_KEY_ID = ''
+    AWS_SECRET_ACCESS_KEY = ''
+
 
 
 class DevelopmentConfig(BaseConfig):
