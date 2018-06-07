@@ -21,11 +21,13 @@ class App extends Component {
                 email: '', 
                 password: ''
             }
-
         };
         this.addUser = this.addUser.bind(this);
+        this.register = this.register.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
     };
+
     componentDidMount() {
         this.getUsers();
     };
@@ -44,12 +46,49 @@ class App extends Component {
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
             .then((res) => {
                 this.getUsers();
-                this.setState({ username: '', email: '' });
+                this.setState({ 
+                    formData: { username: '', email: '', password: '' },
+                    username: '',
+                    email: '',
+                });
             })
+            .catch((err) => { console.log(err); });
+    };
+    register(event) {
+        event.preventDefault();
+        const formType = window.location.href.split('/').reverse()[0];
+        let data = {
+            email: this.state.formData.email,
+            password: this.state.formData.password,
+            };
+            if (formType === 'register') {
+                data.username = this.state.formData.username;
+            }
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`, data)
+            .then((res) => {
+                this.getUsers();
+                this.setState({
+                    formData: { username: '', email: '', password: '' },
+                    username: '',
+                    email: '',
+                });
+                // console.log(this.getUsers());
+                console.log(res.data);
+            })
+            .catch((err) => { console.log(err); });
+    };
+    ping() {
+        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/ping`)
+            .then((res) => { console.log(res); })
             .catch((err) => { console.log(err); });
     };
     handleChange(event) {
         const obj = {};
+        obj[event.target.name] = event.target.value;
+        this.setState(obj);
+    };
+    handleFormChange(event) {
+        const obj = this.state.formData;
         obj[event.target.name] = event.target.value;
         this.setState(obj);
     };
@@ -68,6 +107,8 @@ class App extends Component {
                                     <Form
                                         formType={'Register'} 
                                         formData={this.state.formData}
+                                        handleFormChange={this.handleFormChange}                                        
+                                        register={this.register}
                                     />)} 
                                 />
 
@@ -80,7 +121,7 @@ class App extends Component {
 
                                 <Route exact path='/' render={() => (
                                     <div>
-                                        <h1>All Users</h1> <hr /><br />
+                                        <h1>Users</h1> <hr /><br />
                                         <AddUser
                                             username={this.state.username}
                                             email={this.state.email}
@@ -95,6 +136,8 @@ class App extends Component {
                                 <Route
                                     exact path='/about' component={About}
                                 />
+
+                                
 
                             </Switch>
                         </div>

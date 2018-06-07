@@ -5,14 +5,15 @@ const Form = (props) => {
         <div> 
             <h1>{props.formType}</h1> 
             <br /><br />
-            <form onSubmit={(event) => props.handleUserFormSubmit(event)}> 
+            <form onSubmit={(event) => props.register(event)}> 
                 {props.formType === 'Register' &&
                     <div className="form-group"> 
                         <input
                             name="username"
                             className="form-control input-lg" 
                             type="text"
-                            placeholder="Enter a username" required 
+                            placeholder="Enter a username"
+                            required 
                             value={props.formData.username} 
                             onChange={props.handleFormChange}
                         />
@@ -24,7 +25,8 @@ const Form = (props) => {
                         name="email"
                         className="form-control input-lg" 
                         type="email"
-                        placeholder="Enter an email address" required 
+                        placeholder="Enter an email address"
+                        required 
                         value={props.formData.email} 
                         onChange={props.handleFormChange}
                     />
@@ -35,7 +37,8 @@ const Form = (props) => {
                         name="password"
                         className="form-control input-lg"
                         type="password"
-                        placeholder="Enter a password" required
+                        placeholder="Enter a password"
+                        required
                         value={props.formData.password}
                         onChange={props.handleFormChange}
                     />
