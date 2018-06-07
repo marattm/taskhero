@@ -1,11 +1,16 @@
 import React from 'react';
-
+import { Redirect } from 'react-router-dom';
 const Form = (props) => {
+
+    if (props.isAuthenticated) {
+        return <Redirect to='/' />;
+    }
+
     return (
         <div> 
             <h1>{props.formType}</h1> 
             <br /><br />
-            <form onSubmit={(event) => props.register(event)}> 
+            <form onSubmit={(event) => props.handleSubmitForm(event)}> 
                 {props.formType === 'Register' &&
                     <div className="form-group"> 
                         <input

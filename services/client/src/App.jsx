@@ -20,10 +20,11 @@ class App extends Component {
                 username: '', 
                 email: '', 
                 password: ''
-            }
+            },
+            isAuthenticated: false
         };
         this.addUser = this.addUser.bind(this);
-        this.register = this.register.bind(this);
+        this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
     };
@@ -54,7 +55,7 @@ class App extends Component {
             })
             .catch((err) => { console.log(err); });
     };
-    register(event) {
+    handleSubmitForm(event) {
         event.preventDefault();
         const formType = window.location.href.split('/').reverse()[0];
         let data = {
@@ -71,9 +72,11 @@ class App extends Component {
                     formData: { username: '', email: '', password: '' },
                     username: '',
                     email: '',
+                    isAuthenticated: true
                 });
-                // console.log(this.getUsers());
                 console.log(res.data);
+                localStorage.setItem("auth_token", res.data.auth_token);
+                alert(this.state.isAuthenticated);
             })
             .catch((err) => { console.log(err); });
     };
@@ -107,8 +110,9 @@ class App extends Component {
                                     <Form
                                         formType={'Register'} 
                                         formData={this.state.formData}
+                                        isAuthenticated={this.state.isAuthenticated}
                                         handleFormChange={this.handleFormChange}                                        
-                                        register={this.register}
+                                        handleSubmitForm={this.handleSubmitForm}
                                     />)} 
                                 />
 
@@ -116,6 +120,9 @@ class App extends Component {
                                     <Form
                                         formType={'Login'} 
                                         formData={this.state.formData}
+                                        isAuthenticated={this.state.isAuthenticated}
+                                        handleFormChange={this.handleFormChange}
+                                        handleSubmitForm={this.handleSubmitForm}
                                     />)} 
                                 />
 
