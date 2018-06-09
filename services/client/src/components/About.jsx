@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const About = () => (
-    <div>
-        <h1>About</h1> 
-        <br /><br />
-        <p>Add something relevant here.</p> 
-    </div>
-)
-    
+class About extends Component {
+
+    componentDidMount() {
+        this.props.ping();
+    }
+
+    render() {
+        return (
+            <div>
+                <button 
+                    className="btn btn-info btn-lg"
+                    onClick={(event) => this.props.ping(event)}
+                >
+                    Ping!
+                </button>
+                <br /><br />
+                <p>{this.props.pingData.status}</p>
+                <p>{this.props.pingData.message}</p>
+            </div>
+        )
+    };
+}
+
+
+
+
 export default About;

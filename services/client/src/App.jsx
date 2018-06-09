@@ -7,6 +7,7 @@ import AddUser from './components/AddUser';
 import About from './components/About';
 import NavBar from './components/NavBar';
 import Form from './components/Form';
+import Logout from './components/Logout';
 
 class App extends Component {
     constructor() {
@@ -21,16 +22,23 @@ class App extends Component {
                 email: '', 
                 password: ''
             },
-            isAuthenticated: false
+            isAuthenticated: false,
+            pingData: {
+                message:'click on the button',
+                status:'waiting for a message..'
+            }
         };
         this.addUser = this.addUser.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
+        this.ping = this.ping.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
     };
 
     componentDidMount() {
         this.getUsers();
+        // this.ping();
     };
 
     getUsers() {
@@ -76,15 +84,35 @@ class App extends Component {
                 });
                 console.log(res.data);
                 localStorage.setItem("auth_token", res.data.auth_token);
-                alert(this.state.isAuthenticated);
+                // alert(this.state.isAuthenticated);
             })
             .catch((err) => { console.log(err); });
     };
     ping() {
         axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/ping`)
-            .then((res) => { console.log(res); })
+            .then((res) => {
+                if (this.state.pingData.status === "success") {
+                   this.setState({
+                       pingData: {
+                           message: 'click on the button',
+                           status: 'waiting for a message..'
+                       }
+                   })
+               } else {
+                   this.setState({
+                       pingData: {
+                           message: res.data.message,
+                           status: res.data.status
+                       }
+                   })
+               }
+            })
             .catch((err) => { console.log(err); });
     };
+    logoutUser() {
+        window.localStorage.clear();
+        this.setState({isAuthenticated: false});
+    }
     handleChange(event) {
         const obj = {};
         obj[event.target.name] = event.target.value;
@@ -111,7 +139,7 @@ class App extends Component {
                                         formType={'Register'} 
                                         formData={this.state.formData}
                                         isAuthenticated={this.state.isAuthenticated}
-                                        handleFormChange={this.handleFormChange}                                        
+                                        handleFormChange={this.handleFormChange}
                                         handleSubmitForm={this.handleSubmitForm}
                                     />)} 
                                 />
@@ -136,12 +164,29 @@ class App extends Component {
                                             addUser={this.addUser}
                                         /> <br />
                                         <UsersList
-                                            users={this.state.users} />
+                                            users={this.state.users}
+                                            
+                                        />
                                     </div>
                                 )} />
 
                                 <Route
-                                    exact path='/about' component={About}
+                                    exact path='/about' render={() => (
+                                        <About 
+                                            pingData={this.state.pingData}
+                                            ping={this.ping}
+                                        />
+                                    )}
+
+                                />
+
+                                <Route 
+                                    exact path='/logout' render={() => (
+                                        <Logout
+                                            logoutUser={this.logoutUser}
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />)
+                                    }
                                 />
 
                                 
