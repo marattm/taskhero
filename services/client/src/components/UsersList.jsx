@@ -3,7 +3,7 @@ import React from 'react';
 const UsersList = (props) => {
     return (
         <div>
-            <table className='table' responsive>
+            <table className='table table-striped table-bordered table-condensed table-hover' responsive>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -20,7 +20,7 @@ const UsersList = (props) => {
                                         <td>{user.id}</td>
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.active.value}</td>
+                                        <td>{String(user.active)}</td>
                                     </tr>
                                     )
                         })

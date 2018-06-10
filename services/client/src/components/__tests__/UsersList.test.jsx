@@ -37,7 +37,7 @@ test('UsersList renders properly', () => {
     expect(element_td.get(0).props.children).toBe(users[0].id);
     expect(element_td.get(1).props.children).toBe(users[0].username);
     expect(element_td.get(2).props.children).toBe(users[0].email); 
-    expect(element_td.get(3).props.children).toBe(users[0].active.value);
+    expect(element_td.get(3).props.children).toBe(String(users[0].active));
 });
 
 test('UsersList renders a snapshot properly', () => {

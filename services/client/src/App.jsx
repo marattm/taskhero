@@ -8,6 +8,7 @@ import About from './components/About';
 import NavBar from './components/NavBar';
 import Form from './components/Form';
 import Logout from './components/Logout';
+import UserStatus from './components/UserStatus';
 
 class App extends Component {
     constructor() {
@@ -29,8 +30,8 @@ class App extends Component {
             }
         };
         this.addUser = this.addUser.bind(this);
-        this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
         this.ping = this.ping.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
@@ -84,7 +85,7 @@ class App extends Component {
                 });
                 console.log(res.data);
                 localStorage.setItem("auth_token", res.data.auth_token);
-                // alert(this.state.isAuthenticated);
+                console.log("isAuthenticated: " + this.state.isAuthenticated);
             })
             .catch((err) => { console.log(err); });
     };
@@ -112,6 +113,8 @@ class App extends Component {
     logoutUser() {
         window.localStorage.clear();
         this.setState({isAuthenticated: false});
+        console.log("isAuthenticated: " + this.state.isAuthenticated);
+        
     }
     handleChange(event) {
         const obj = {};
@@ -128,6 +131,7 @@ class App extends Component {
             <div>
                 <NavBar
                     title={this.state.title}
+                    isAuthenticated={this.state.isAuthenticated}
                 />
                 <div className="container"> 
                     <div className="row">
@@ -188,6 +192,12 @@ class App extends Component {
                                         />)
                                     }
                                 />
+
+                                <Route exact path='/status' render={() => (
+                                    <UserStatus
+                                        isAuthenticated={this.state.isAuthenticated}
+                                    />
+                                )} />
 
                                 
 
