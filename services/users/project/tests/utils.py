@@ -24,6 +24,14 @@ def user_json():
     }
 
 
+def user_json_login():
+    return {
+        'username': 'maratule',
+        'email': 'marat@monnie.com',
+        'password': 'test123'
+    }
+
+
 def user_login():
     return {
         'email': 'marat@monnie.com',
@@ -59,3 +67,18 @@ def user2_json():
         'password': 'john123',
         'confirm': 'john123'
     }
+
+
+def add_admin(username, email, password, admin):
+    user = User(
+        username=username,
+        email=email,
+        password=password
+    )
+    db.session.add(user)
+    if admin:
+        user.admin = True
+    else:
+        user.admin = False
+    db.session.commit()
+    return user
