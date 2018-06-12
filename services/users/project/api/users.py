@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
 from project.api.models import User
 from project import db
-
+from project.api.utils import authenticate
 
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
@@ -33,7 +33,8 @@ def index():
 
 
 @users_blueprint.route('/users', methods=['POST'])
-def add_user():
+@authenticate
+def add_user(resp):
     post_data = request.get_json()
     response_object = {
         'status': 'fail',

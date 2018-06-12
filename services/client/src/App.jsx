@@ -36,7 +36,7 @@ class App extends Component {
         this.ping = this.ping.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
     };
-
+    
     componentDidMount() {
         this.getUsers();
         // this.ping();

@@ -13,15 +13,30 @@ def add_user(username, email, password):
 
 
 def user_json():
-        return {
-            'id': '',
-            'first_name': 'Marat',
-            'last_name': 'Monnie',
-            'username': 'maratule',
-            'email': 'marat@monnie.com',
-            'password': 'test123',
-            'confirm': 'test123'
-        }
+    return {
+        'id': '',
+        'first_name': 'Marat',
+        'last_name': 'Monnie',
+        'username': 'maratule',
+        'email': 'marat@monnie.com',
+        'password': 'test123',
+        'confirm': 'test123'
+    }
+
+
+def user_login():
+    return {
+        'email': 'marat@monnie.com',
+        'password': 'test123'
+    }
+
+
+def user_test():
+    return {
+        'username': 'test',
+        'email': 'test@test.com',
+        'password': 'test'
+    }
 
 
 def user_json_incomplete():
