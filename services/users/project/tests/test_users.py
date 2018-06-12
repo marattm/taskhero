@@ -191,10 +191,14 @@ class TestUserService(BaseTestCase):
                           'username'], data['data']['users'][0]['username'])
             self.assertIn(
                 user_json()['email'], data['data']['users'][0]['email'])
+            self.assertTrue(data['data']['users'][0]['active'])
+            self.assertFalse(data['data']['users'][0]['admin'])
             self.assertIn(user2_json()[
                           'username'], data['data']['users'][1]['username'])
             self.assertIn(
                 user2_json()['email'], data['data']['users'][1]['email'])
+            self.assertTrue(data['data']['users'][0]['active'])
+            self.assertFalse(data['data']['users'][0]['admin'])
             self.assertIn('success', data['status'])
 
     def test_main_with_users(self):
