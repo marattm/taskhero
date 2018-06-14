@@ -52,3 +52,5 @@ docker-machine rm -y $(docker-machine ls | grep trainme | awk '{print $1}')
 # launch a machine 
 docker-machine create
 
+# clean ALL
+docker system prune --all --force --volumes

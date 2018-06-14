@@ -2,6 +2,9 @@
 
 # Production Deploy
 
+key=$(python keygen.py 2>&1 >/dev/null)
+export SECRET_KEY=$key
+echo $key
 docker-machine create --driver amazonec2 --amazonec2-open-port 80 --amazonec2-region us-west-2 trainme-prod
 docker-machine env trainme-prod
 eval $(docker-machine env trainme-prod)

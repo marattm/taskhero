@@ -44,11 +44,17 @@ def test():
 @cli.command()
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='marat', email="marat@gmail.com"))
-    db.session.add(User(username='maratule', email="maratule@sphere.com"))
+    db.session.add(
+        User(username='marat',
+             email="marat@gmail.com",
+             password='password'))
+    db.session.add(
+        User(username='maratule',
+             email='maratule@sphere.com',
+             password='password'))
     db.session.commit()
 
-    
+
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
