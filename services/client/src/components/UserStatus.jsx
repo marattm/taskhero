@@ -25,7 +25,7 @@ class UserStatus extends Component {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${window.localStorage.authToken}`
+                Authorization: `Bearer ${window.localStorage.auth_token}`
             }
         };
         return axios(options)
@@ -33,9 +33,11 @@ class UserStatus extends Component {
                 console.log(res);
                 console.log(res.data.data);
                 this.setState({
-                    email: res.data.email,
-                    id: res.data.id,
-                    username: res.data.username
+                    email: res.data.data.email,
+                    id: res.data.data.id,
+                    username: res.data.data.username,
+                    active: String(res.data.data.active),
+                    admin: String(res.data.data.admin)
                 });
             })
             .catch((error) => {
@@ -47,7 +49,11 @@ class UserStatus extends Component {
         if (this.props.isAuthenticated) {
             return (
                 <div> <ul>
-                    <li><strong>User ID:</strong> {this.state.id}</li> <li><strong>Email:</strong> {this.state.email}</li> <li><strong>Username:</strong> {this.state.username}</li>
+                    <li><strong>User ID:</strong> {this.state.id}</li>
+                    <li><strong>Email:</strong> {this.state.email}</li>
+                    <li><strong>Username:</strong> {this.state.username}</li>
+                    <li><strong>Admin:</strong> {this.state.admin}</li>
+                    <li><strong>Active:</strong> {this.state.active}</li>
                 </ul> </div>
             )
         }

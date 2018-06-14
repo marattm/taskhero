@@ -1,14 +1,16 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 
 const UsersList = (props) => {
     return (
         <div>
-            <table className='table table-striped table-bordered table-condensed table-hover' responsive>
+            <Table striped bordered condensed hover>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Admin</th>
                         <th>Active</th>
                     </tr>
                 </thead>
@@ -20,16 +22,15 @@ const UsersList = (props) => {
                                         <td>{user.id}</td>
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
+                                        <td>{String(user.admin)}</td>
                                         <td>{String(user.active)}</td>
                                     </tr>
                                     )
                         })
                     }
                 </tbody>
-            </table>
+            </Table>
         </div>
-
-        
     )
 };
 
