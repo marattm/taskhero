@@ -51,19 +51,69 @@ class User(db.Model):
             'task_counter': self.task_counter,
             'last_task': self.last_task,
             'last_task_date': self.last_task_date,
-            'tasks_counter_list': self.tasks_counter_list,
-            'empty_dishwasher': self.empty_dishwasher,
-            'fill_dishwasher': self.fill_dishwasher,
-            'take_garbage': self.take_garbage,
-            'clean_tables': self.clean_tables,
-            'clean_stove_top': self.clean_stove_top,
-            'clean_floor': self.clean_floor,
-            'clean_bathroom': self.clean_bathroom,
-            'paper_towel': self.paper_towel,
-            'toilet_paper': self.toilet_paper,
-            'kitchen_soap': self.kitchen_soap,
-            'bleacher': self.bleacher,
-            'dishwasher_pods': self.dishwasher_pods
+            # 'tasks_counter_list': self.tasks_counter_list,
+            'tasks_counter_list': [
+                {
+                    'task_name': 'Empty Dishwasher',
+                    'empty_dishwasher': self.empty_dishwasher,
+                    'counter': self.empty_dishwasher
+                },
+                {
+                    'task_name': 'Fill Dishwasher',
+                    'fill_dishwasher': self.fill_dishwasher,
+                    'counter': self.fill_dishwasher
+                },
+                {
+                    'task_name': 'Take Garbage',
+                    'take_garbage': self.take_garbage,
+                    'counter': self.take_garbage
+                },
+                {
+                    'task_name': 'Clean Tables',
+                    'clean_tables': self.clean_tables,
+                    'counter': self.clean_tables
+                },
+                {
+                    'task_name': 'Clean Stove_top',
+                    'clean_stove_top': self.clean_stove_top,
+                    'counter': self.clean_stove_top
+                },
+                {
+                    'task_name': 'Clean Floor',
+                    'clean_floor': self.clean_floor,
+                    'counter': self.clean_floor
+                },
+                {
+                    'task_name': 'Clean Bathroom',
+                    'clean_bathroom': self.clean_bathroom,
+                    'counter': self.clean_bathroom
+                },
+                {
+                    'task_name': 'Paper Towel',
+                    'paper_towel': self.paper_towel,
+                    'counter': self.paper_towel
+                },
+                {
+                    'task_name': 'Toilet Paper',
+                    'toilet_paper': self.toilet_paper,
+                    'counter': self.toilet_paper
+                },
+                {
+                    'task_name': 'Kitchen Soap',
+                    'kitchen_soap': self.kitchen_soap,
+                    'counter': self.kitchen_soap
+                },
+                {
+                    'task_name': 'Bleacher',
+                    'bleacher': self.bleacher,
+                    'counter': self.bleacher
+                },
+                {
+                    'task_name': 'Dishwasher Pods',
+                    'dishwasher_pods': self.dishwasher_pods,
+                    'counter': self.dishwasher_pods
+                }
+            ]
         }
 
     def encode_auth_token(self, user_id):

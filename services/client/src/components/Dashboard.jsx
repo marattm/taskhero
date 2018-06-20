@@ -4,55 +4,57 @@ import { Table, Badge} from 'react-bootstrap';
 const task_list = [
     {
         'task_name': 'Empty Dishwasher',
-        'counter': 0,
+        'id': 0,
     },
     {
         'task_name': 'Fill Dishwasher',
-        'counter': 0,
+        'id': 1,
     },
     {
         'task_name': 'Take Garbage',
-        'counter': 0,
+        'id': 2,
     },
     {
         'task_name': 'Clean Tables',
-        'counter': 0,
+        'id': 3,
     },
     {
         'task_name': 'Clean Stove Top',
-        'counter': 0,
+        'id': 4,
     },
     {
         'task_name': 'Clean Floor',
-        'counter': 0,
+        'id': 5,
     },
     {
         'task_name': 'Clean Bathroom',
-        'counter': 0,
+        'id': 6,
     },
     {
         'task_name': 'Paper Towel',
-        'counter': 0,
+        'id': 7,
     },
     {
         'task_name': 'Toilet Paper',
-        'counter': 0,
+        'id': 8,
     },
     {
         'task_name': 'Kitchen Soap',
-        'counter': 0,
+        'id': 9,
     },
     {
         'task_name': 'Bleacher',
-        'counter': 0,
+        'id': 10,
     },
     {
         'task_name': 'Dishwasher Pods',
-        'counter': 0,
+        'id': 11,
     }
     ]
 
 const import_list = (user) => {
+    console.log(user);
+    
     task_list[0].counter = user.empty_dishwasher
     task_list[1].counter = user.fill_dishwasher
     task_list[2].counter = user.take_garbage
@@ -66,9 +68,31 @@ const import_list = (user) => {
     task_list[10].counter = user.bleacher
     task_list[11].counter = user.dishwasher_pods
 
+
     return task_list
 }
 
+const tableau = (users) => {
+    for (let index = 0; index < task_list.length; index++) {
+        const element = task_list[index];
+        return (
+            <tr>
+                <td>
+                    {element.task_name}
+                </td>
+                {
+                    users.map((user) => {
+                        return (
+                            <td key={user.id}>
+                                {user.tasks_counter_list[index].counter}
+                            </td>
+                        )
+                    })
+                }
+            </tr>
+        )
+    }
+}
 
 const Dashboard = (props) => {
     return(
@@ -76,7 +100,7 @@ const Dashboard = (props) => {
             <Table striped bordered condensed hover>
                 <thead>
                     <tr>
-                        {/* <th style={{ textAlign: "center" }}>Tasks</th> */}
+                        <th style={{ textAlign: "center" }}>Tasks</th>
                         {
                             props.users.map((user) => {
                                 return(
@@ -87,13 +111,227 @@ const Dashboard = (props) => {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* {tableau(props.users)} */}
+
+                    {/* work in progress */}
+                    {/* {task_list.map((task) => {
+                        return (
+                            <tr>
+                                <td>
+                                    {task.task_name}
+                                </td>
+                                {
+                                    props.users.map((user) => {
+                                        return (
+                                            <td key={user.id}>
+                                                {user.tasks_counter_list.counter}
+                                                {console.log("counter: " + user.tasks_counter_list.counter)}
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })} */}
+
+                    {task_list.map((task) => {
+                        return (
+                            <tr>
+                                <td>
+                                    {task.task_name}
+                                </td>
+                                {
+                                    props.users.map((user) => {
+                                        return (
+                                            <td key={user.id}>
+                                                {user.tasks_counter_list[task.id].counter}
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })}
+
+                    {/* {task_list.map((task) => {
+                        return (
+                            <tr>
+                                <td>
+                                    {task.task_name}
+                                </td>
+                                {
+                                    props.users.map((user) => {
+                                        return (
+                                            <td key={user.id}>
+                                                {user.tasks_counter_list.counter}
+                                                {console.log("counter: " + user.tasks_counter_list.counter)}
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })} */}
+
+
+                    {/* {task_list.map((task) => {
+                        for (let index = 0; index < props.users.tasks_counter_list.length; index++) {
+                            const element = user.tasks_counter_list[index];
+                        }
+                                return(
+                                    <tr>
+                                        <td>
+                                            {task.task_name}
+                                        </td>
+                                        {
+                                            props.users.map((user) => {
+                                                return(
+                                                    <td key={user.id}>
+                                                        
+                                                        {element.counter}
+                                                        {console.log("counter: " + element.counter )}
+                                                    </td>
+                                                )
+                                            })
+                                        }
+                                    </tr>
+                                )
+                    })} */}
+
+                    {/* {props.users.map((user) => {
+
+                    })} */}
+
+                                        {/* {task_list.map((task) => {
+                        return(
+                            <tr>
+                                <td>
+                                    {task.task_name}
+                                </td>
+                                {
+                                    props.users.map((user) => {
+                                        return(
+                                            <td key={user.id}>
+                                                {user.tasks_counter_list.counter}
+                                                {console.log("counter: " + user.tasks_counter_list.counter )}
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })}
+
+
                     {/* <tr>
-                        Empty Dishwasher
-                            </tr>
+                        <td>
+                            {task_list[0].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr> */}
+
+                    {/* <tr>
+                        <td>
+                            {task_list[1].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[1].task_name}
+                        </td>
+                    </tr>
+
                     <tr>
-                        Fill Dishwasher
-                            </tr>
+                        <td>
+                            {task_list[2].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
                     <tr>
+                        <td>
+                            {task_list[3].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[4].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[5].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[6].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[7].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[8].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[9].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[10].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {task_list[11].task_name}
+                        </td>
+                        <td>
+                            {import_list(props.users)[0].task_name}
+                        </td>
+                    </tr> */}
+
+                    {/* <tr>
                         Take Garbage
                             </tr>
                     <tr>
@@ -123,27 +361,40 @@ const Dashboard = (props) => {
                     <tr>
                         Dishwasher Pods
                             </tr> */}
-                    {props.users.map((user) => {
+
+                    {/* {task_list.map((task) => {
                         return(
-                            
-                            <td>
-                                {
-                                    import_list(user).map((task) => {
-                                        return(
-                                            <tr>
-                                                <tr>
-                                                    <Badge>
-                                                        {task.counter}
-                                                    </Badge>
-                                                    {task.task_name}
-                                                </tr>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </td>
+                            <div>
+                                <td>
+                                    {task.task_name}
+                                    <tr>
+
+                                            {props.users.map((user) => {
+                                                return(
+                                                    // <tr>
+                                                        // {
+                                                            import_list(user).map((task2) => {
+                                                                return(
+                                                                    // <tr>
+                                                                        <tr>
+                                                                            <Badge>
+                                                                                {task2.counter}
+                                                                            </Badge>
+                                                                        </tr>
+                                                                    // </tr>
+                                                                )
+                                                            })
+                                                        // }
+                                                    // </tr>
+                                                )
+                                            })}
+
+                                    </tr>
+                                </td>
+                            </div>
                         )
-                    })}
+                    })
+                    } */}
                 </tbody>
             </Table>
         </div>

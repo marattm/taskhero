@@ -235,7 +235,7 @@ class App extends Component {
                                     </div>
                                 )} />
 
-                                <Route
+                                {/* <Route
                                     exact path='/about' render={() => (
                                         <About 
                                             pingData={this.state.pingData}
@@ -243,7 +243,7 @@ class App extends Component {
                                         />
                                     )}
 
-                                />
+                                /> */}
 
                                 <Route 
                                     exact path='/logout' render={() => (
