@@ -8,7 +8,7 @@
 
 DEV = $1
 
-if [ "$1" = "dev"]
+if [ `"$1" = "dev"`]
 then 
     docker-machine create -d virtualbox trainme-dev
     docker-machine env trainme-dev

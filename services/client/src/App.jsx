@@ -2,23 +2,27 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Switch, Route } from 'react-router-dom'
 
-import UsersList from './components/UsersList';
+import History from './components/History';
 import About from './components/About';
 import NavBar from './components/NavBar';
 import Form from './components/Form';
 import Logout from './components/Logout';
 import UserStatus from './components/UserStatus';
+import Count from './components/Count';
+import Dashboard from './components/Dashboard';
+import LogForm from './components/LogForm';
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
             users: [],
+            tasks: [],
             username: '',
             email: '',
             active: '',
             admin:'',
-            title: 'myTrainer.strg',
+            title: 'Task Hero',
             formData: {
                 username: '', 
                 email: '', 
@@ -28,7 +32,9 @@ class App extends Component {
             pingData: {
                 message:'click on the button',
                 status:'waiting for a message..'
-            }
+            },
+            task:"empty_dishwasher",
+            task_id:''
         };
         this.addUser = this.addUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -36,10 +42,14 @@ class App extends Component {
         this.handleFormChange = this.handleFormChange.bind(this);
         this.ping = this.ping.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
+        this.handleLogFormChange = this.handleLogFormChange.bind(this);
+        this.handleSubmitLogForm = this.handleSubmitLogForm.bind(this);
+        this.handleClickDel = this.handleClickDel.bind(this);
     };
     
     componentDidMount() {
         this.getUsers();
+        this.getTasks();
         // this.ping();
     };
 
@@ -80,13 +90,15 @@ class App extends Component {
                 this.getUsers();
                 this.setState({
                     formData: { username: '', email: '', password: '' },
-                    username: '',
-                    email: '',
+                    username: this.state.formData.username,
+                    email: this.state.formData.email,
                     isAuthenticated: true
                 });
                 console.log(res.data);
                 localStorage.setItem("auth_token", res.data.auth_token);
                 console.log("isAuthenticated: " + this.state.isAuthenticated);
+                console.log(this.state);
+
             })
             .catch((err) => { console.log(err); });
     };
@@ -113,8 +125,8 @@ class App extends Component {
     };
     logoutUser() {
         window.localStorage.clear();
-        this.setState({isAuthenticated: false});
-        console.log("isAuthenticated: " + this.state.isAuthenticated);
+        this.setState({isAuthenticated: false, username:'', email:''});
+        console.log(this.state);
         
     }
     handleChange(event) {
@@ -127,6 +139,42 @@ class App extends Component {
         obj[event.target.name] = event.target.value;
         this.setState(obj);
     };
+    handleLogFormChange(event) {
+        this.setState({ task: event.target.value });
+    };
+    handleSubmitLogForm(event) {
+        event.preventDefault();
+        let data = {
+            email: this.state.email,
+            task: this.state.task
+        }
+        return axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/task_log`, data)
+            .then((res) => {
+                this.getUsers();
+                this.getTasks();
+                console.log(res.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+    getTasks() {
+        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks`)
+            .then((res) => { this.setState({ tasks: res.data.data.tasks }); })
+            .catch((err) => { console.log(err); });
+    };
+    handleClickDel(data) {
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/del`, data)
+            .then((res) => {
+                this.getUsers();
+                this.getTasks();
+                console.log(res.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     render() {
         return (
             <div>
@@ -161,9 +209,28 @@ class App extends Component {
 
                                 <Route exact path='/' render={() => (
                                     <div>
-                                        <h1>Users List</h1> <hr /><br />
-                                        <UsersList
+                                        <h1>MVP Brat</h1><hr />
+                                        <Count
                                             users={this.state.users}
+                                        />
+                                        <h1>Dashboard</h1><hr/>
+                                        { this.state.isAuthenticated &&
+                                            <LogForm
+                                            value={this.state.task}
+                                            handleLogFormChange={this.handleLogFormChange}
+                                            handleSubmitLogForm={this.handleSubmitLogForm}
+                                            />
+                                        }
+                                        <br />
+                                        <Dashboard
+                                            tasks={this.state.tasks}
+                                            users={this.state.users}
+                                        />
+                                        <h1>History</h1><hr/>
+                                        <History
+                                            tasks={this.state.tasks}
+                                            email={this.state.email}
+                                            handleClickDel={this.handleClickDel}
                                         />
                                     </div>
                                 )} />
@@ -192,8 +259,6 @@ class App extends Component {
                                         isAuthenticated={this.state.isAuthenticated}
                                     />
                                 )} />
-
-                                
 
                             </Switch>
                         </div>

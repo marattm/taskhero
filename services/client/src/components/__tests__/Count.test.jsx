@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import UsersList from '../UsersList';
+import Count from '../Count';
 
 const users = [
     {
@@ -10,20 +10,22 @@ const users = [
         'admin': false,
         'email': 'marat@gmail.com',
         'id': 1,
-        'username': 'maratule'
+        'username': 'maratule',
+        'jobs':4
     },
     {
         'active': true,
         'active': false,
         'admin': 'maratmonne@mmonne.com',
         'id': 2,
-        'username': 'maramone'
+        'username': 'maramone',
+        'jobs':6
     }
 ];
 
 test('UsersList renders properly', () => {
-    const wrapper = shallow(<UsersList users={users} />);
-
+    const wrapper = shallow(<Count users={users} />);
+    
     const element_tr = wrapper.find('tr');
     expect(element_tr.length).toBe(3);
 
@@ -39,7 +41,7 @@ test('UsersList renders properly', () => {
     expect(element_td.length).toBe(10);
     expect(element_td.get(0).props.children).toBe(users[0].id);
     expect(element_td.get(1).props.children).toBe(users[0].username);
-    expect(element_td.get(2).props.children).toBe(users[0].email);
+    expect(element_td.get(2).props.children).toBe(users[0].email); 
     expect(element_td.get(3).props.children).toBe(String(users[0].admin));
     expect(element_td.get(4).props.children).toBe(String(users[0].active));
 });

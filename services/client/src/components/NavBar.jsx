@@ -12,10 +12,10 @@ const NavBar = (props) => (
         <Navbar.Collapse>
             <Nav>
                 <LinkContainer to="/">
-                    <NavItem eventKey={1}>Home</NavItem>
+                    <NavItem eventKey={1}>Dashboard</NavItem>
                 </LinkContainer>
                 <LinkContainer to="/about">
-                    <NavItem eventKey={2}>About</NavItem>
+                    <NavItem eventKey={2}>Ping</NavItem>
                 </LinkContainer>
                 {props.isAuthenticated && 
                     <LinkContainer to="/status">

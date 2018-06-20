@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const Form = (props) => {
 
@@ -50,11 +51,21 @@ const Form = (props) => {
                     />
                 </div>
                 
-                <input
+                {/* <input
                     type="submit"
                     className="btn btn-primary btn-lg btn-block"
                     value="Submit"
-                /> 
+                /> */}
+                <Button
+                    type="submit"
+                    className="btn btn-primary btn-lg btn-block"
+                    value="Submit"
+                >
+                    Submit
+                </Button>
+
+
+
             </form>
         </div>)
 };
