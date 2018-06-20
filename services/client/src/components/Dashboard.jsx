@@ -137,14 +137,16 @@ const Dashboard = (props) => {
                     {task_list.map((task) => {
                         return (
                             <tr>
-                                <td>
+                                <td style={{ textAlign: "center" }}>
                                     {task.task_name}
                                 </td>
                                 {
                                     props.users.map((user) => {
                                         return (
-                                            <td key={user.id}>
+                                            <td key={user.id} style={{ textAlign: "center" }}>
+                                                <Badge>
                                                 {user.tasks_counter_list[task.id].counter}
+                                                </Badge>
                                             </td>
                                         )
                                     })
