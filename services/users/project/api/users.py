@@ -154,19 +154,12 @@ def task_log():
         if not user.tasks_counter_list:
             user.tasks_counter_list = task_list()
 
-        # # else:
-        # #     tasks_list_temp = task_list()
-        # tasks_list_temp = user.tasks_counter_list
-        # # print('\ntasks_list_temp AVANT:\n', tasks_list_temp)
-        # for field in tasks_list_temp:
-        #     if str(field['task_name']) == str(task):
-        #         field['counter'] = int(field['counter'])+1
-        # # print('tasks_list_temp APRES\n', tasks_list_temp)
-        # user.tasks_counter_list=list(tasks_list_temp)
-        # # print('user.tasks_counter_list\n', user.tasks_counter_list)
-
         db.session.add(
-            History(user_id=user.id, username=user.username, user_email=user.email, task=task, date=datetime.datetime.utcnow() - datetime.timedelta(hours=5)))
+            History(user_id=user.id,
+            username=user.username,
+            user_email=user.email,
+            task=task,
+            date=datetime.datetime.utcnow() - datetime.timedelta(hours=5)))
         db.session.commit()
         task_history = History.query.filter_by(user_id=user.id).first()
         response_object['status'] = 'success'
@@ -216,7 +209,7 @@ def delete_task():
         db.session.delete(history)
         user = User.query.filter_by(id=history.user_id).first()
         user.task_counter -= 1
-        
+
         if task == "empty_dishwasher":
             user.empty_dishwasher -= 1
         elif task == "fill_dishwasher":

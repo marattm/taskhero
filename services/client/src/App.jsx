@@ -94,10 +94,10 @@ class App extends Component {
                     email: this.state.formData.email,
                     isAuthenticated: true
                 });
-                console.log(res.data);
+                // console.log(res.data);
                 localStorage.setItem("auth_token", res.data.auth_token);
-                console.log("isAuthenticated: " + this.state.isAuthenticated);
-                console.log(this.state);
+                // console.log("isAuthenticated: " + this.state.isAuthenticated);
+                // console.log(this.state);
 
             })
             .catch((err) => { console.log(err); });
@@ -126,7 +126,7 @@ class App extends Component {
     logoutUser() {
         window.localStorage.clear();
         this.setState({isAuthenticated: false, username:'', email:''});
-        console.log(this.state);
+        // console.log(this.state);
         
     }
     handleChange(event) {
@@ -152,7 +152,7 @@ class App extends Component {
             .then((res) => {
                 this.getUsers();
                 this.getTasks();
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch((error) => {
                 console.log(error);
@@ -168,7 +168,7 @@ class App extends Component {
             .then((res) => {
                 this.getUsers();
                 this.getTasks();
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch((error) => {
                 console.log(error);
@@ -254,11 +254,11 @@ class App extends Component {
                                     }
                                 />
 
-                                <Route exact path='/status' render={() => (
+                                {/* <Route exact path='/status' render={() => (
                                     <UserStatus
                                         isAuthenticated={this.state.isAuthenticated}
                                     />
-                                )} />
+                                )} /> */}
 
                             </Switch>
                         </div>

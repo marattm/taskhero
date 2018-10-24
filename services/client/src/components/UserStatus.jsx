@@ -30,8 +30,8 @@ class UserStatus extends Component {
         };
         return axios(options)
             .then((res) => {
-                console.log(res);
-                console.log(res.data.data);
+                // console.log(res);
+                // console.log(res.data.data);
                 this.setState({
                     email: res.data.data.email,
                     id: res.data.data.id,

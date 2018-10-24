@@ -40,6 +40,9 @@ const NavBar = (props) => (
                     </LinkContainer>
                 }
             </Nav>
+            <Nav pullRight>
+                <NavItem eventKey={3} href="https://github.com/marattm/taskhero">Github</NavItem>
+            </Nav>
         </Navbar.Collapse>
     </Navbar>
 )
