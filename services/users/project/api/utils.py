@@ -34,3 +34,56 @@ def authenticate(f):
 def is_admin(user_id):
     user = User.query.filter_by(id=user_id).first()
     return user.admin
+
+
+def task_list():
+    return [
+        {
+            'task_name': 'Empty Dishwasher',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Fill Dishwasher',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Take Garbage',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Clean Tables',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Clean Stove_top',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Clean Floor',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Clean Bathroom',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Paper Towel',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Toilet Paper',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Kitchen Soap',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Bleacher',
+            'counter': 0,
+        },
+        {
+            'task_name': 'Dishwasher Pods',
+            'counter': 0,
+        }
+    ]
