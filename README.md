@@ -1,4 +1,4 @@
 # taskhero
-[![Build Status](https://api.travis-ci.org/marattm/taskhero.svg?branch=feature%home-task)](https://travis-ci.org/marattm/taskhero)
+[![Build Status](https://api.travis-ci.com/marattm/taskhero.svg?branch=develop)](https://travis-ci.com/marattm/taskhero.svg?branch=develop)
 
 This is a task logger service for roommates sharing a condo.
