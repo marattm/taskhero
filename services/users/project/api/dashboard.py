@@ -7,8 +7,6 @@
 
 # users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
-
-
 # @users_blueprint.route('/dashboard/log', methods=['GET'])
 # def mvp():
 #     """Get mvp scores. """

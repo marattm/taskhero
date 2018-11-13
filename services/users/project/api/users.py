@@ -154,8 +154,8 @@ def task_log():
         if not user.tasks_counter_list:
             user.tasks_counter_list = task_list()
 
-        db.session.add(
-            History(user_id=user.id,
+        db.session.add(History(
+            user_id=user.id,
             username=user.username,
             user_email=user.email,
             task=task,

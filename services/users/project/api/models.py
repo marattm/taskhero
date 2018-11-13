@@ -19,7 +19,8 @@ class User(db.Model):
     last_task = db.Column(db.String(128), default=None, nullable=True)
     last_task_date = db.Column(
         db.DateTime(), nullable=True)
-    history_id = db.Column(db.Integer, db.ForeignKey('history.id'), nullable=True)
+    history_id = db.Column(
+        db.Integer, db.ForeignKey('history.id'), nullable=True)
     tasks_counter_list = db.Column(db.JSON, default=None, nullable=True)
     # history_id = db.Column(JSON, db.ForeignKey('history.id'), nullable=True)
     empty_dishwasher = db.Column(db.Integer, default=0, nullable=True)

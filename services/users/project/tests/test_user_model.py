@@ -13,6 +13,10 @@
 
 # class TestUserModel(BaseTestCase):
 
+#     def something():
+#         pass
+
+
 #     # def test_add_user(self):
 #     #     """Ensure add single user behaves correctly."""
 #     #     user = add_user(
