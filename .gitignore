@@ -4,7 +4,7 @@
 Vagrantfile
 settings.*
 .DS_store
-
+.vscode
 ## virtualenv
 venv
 

@@ -2,5 +2,7 @@
 
 # users code coverage
 
-docker-compose -f docker-compose-dev.yml \
-  run users python manage.py cov
+python services/users/manage.py cov
+
+# docker-compose -f docker-compose-dev.yml \
+#   run users python manage.py cov
