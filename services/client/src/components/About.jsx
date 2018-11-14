@@ -9,7 +9,7 @@ class About extends Component {
     render() {
         return (
             <div>
-                <button 
+                <button
                     className="btn btn-info btn-lg"
                     onClick={(event) => this.props.ping(event)}
                 >

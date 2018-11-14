@@ -21,20 +21,20 @@ class App extends Component {
             username: '',
             email: '',
             active: '',
-            admin:'',
+            admin: '',
             title: 'Task Hero',
             formData: {
-                username: '', 
-                email: '', 
+                username: '',
+                email: '',
                 password: ''
             },
             isAuthenticated: false,
             pingData: {
-                message:'click on the button',
-                status:'waiting for a message..'
+                message: 'click on the button',
+                status: 'waiting for a message..'
             },
-            task:"empty_dishwasher",
-            task_id:''
+            task: "empty_dishwasher",
+            task_id: ''
         };
         this.addUser = this.addUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -46,7 +46,7 @@ class App extends Component {
         this.handleSubmitLogForm = this.handleSubmitLogForm.bind(this);
         this.handleClickDel = this.handleClickDel.bind(this);
     };
-    
+
     componentDidMount() {
         this.getUsers();
         this.getTasks();
@@ -54,7 +54,8 @@ class App extends Component {
     };
 
     getUsers() {
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+        axios.get(`users`)
             .then((res) => { this.setState({ users: res.data.data.users }); })
             .catch((err) => { console.log(err); });
     };
@@ -64,10 +65,11 @@ class App extends Component {
             username: this.state.username,
             email: this.state.email
         };
-        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+        axios.post(`users`, data)
             .then((res) => {
                 this.getUsers();
-                this.setState({ 
+                this.setState({
                     formData: { username: '', email: '', password: '' },
                     username: '',
                     email: '',
@@ -81,11 +83,12 @@ class App extends Component {
         let data = {
             email: this.state.formData.email,
             password: this.state.formData.password,
-            };
-            if (formType === 'register') {
-                data.username = this.state.formData.username;
-            }
-        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`, data)
+        };
+        if (formType === 'register') {
+            data.username = this.state.formData.username;
+        }
+        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`, data)
+        axios.post(`auth/${formType}`, data)
             .then((res) => {
                 this.getUsers();
                 this.setState({
@@ -103,31 +106,32 @@ class App extends Component {
             .catch((err) => { console.log(err); });
     };
     ping() {
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/ping`)
+        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/ping`)
+        axios.get(`users/ping`)
             .then((res) => {
                 if (this.state.pingData.status === "success") {
-                   this.setState({
-                       pingData: {
-                           message: 'click on the button',
-                           status: 'waiting for a message..'
-                       }
-                   })
-               } else {
-                   this.setState({
-                       pingData: {
-                           message: res.data.message,
-                           status: res.data.status
-                       }
-                   })
-               }
+                    this.setState({
+                        pingData: {
+                            message: 'click on the button',
+                            status: 'waiting for a message..'
+                        }
+                    })
+                } else {
+                    this.setState({
+                        pingData: {
+                            message: res.data.message,
+                            status: res.data.status
+                        }
+                    })
+                }
             })
             .catch((err) => { console.log(err); });
     };
     logoutUser() {
         window.localStorage.clear();
-        this.setState({isAuthenticated: false, username:'', email:''});
+        this.setState({ isAuthenticated: false, username: '', email: '' });
         // console.log(this.state);
-        
+
     }
     handleChange(event) {
         const obj = {};
@@ -148,7 +152,8 @@ class App extends Component {
             email: this.state.email,
             task: this.state.task
         }
-        return axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/task_log`, data)
+        // return axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/task_log`, data)
+        return axios.post(`tasks/task_log`, data)
             .then((res) => {
                 this.getUsers();
                 this.getTasks();
@@ -159,12 +164,14 @@ class App extends Component {
             });
     };
     getTasks() {
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks`)
+        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks`)
+        axios.get(`tasks`)
             .then((res) => { this.setState({ tasks: res.data.data.tasks }); })
             .catch((err) => { console.log(err); });
     };
     handleClickDel(data) {
-        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/del`, data)
+        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/del`, data)
+        axios.post(`tasks/del`, data)
             .then((res) => {
                 this.getUsers();
                 this.getTasks();
@@ -182,29 +189,29 @@ class App extends Component {
                     title={this.state.title}
                     isAuthenticated={this.state.isAuthenticated}
                 />
-                <div className="container"> 
+                <div className="container">
                     <div className="row">
                         <div className="col-md-6"> <br />
                             <Switch>
 
                                 <Route exact path='/register' render={() => (
                                     <Form
-                                        formType={'Register'} 
+                                        formType={'Register'}
                                         formData={this.state.formData}
                                         isAuthenticated={this.state.isAuthenticated}
                                         handleFormChange={this.handleFormChange}
                                         handleSubmitForm={this.handleSubmitForm}
-                                    />)} 
+                                    />)}
                                 />
 
                                 <Route exact path='/login' render={() => (
                                     <Form
-                                        formType={'Login'} 
+                                        formType={'Login'}
                                         formData={this.state.formData}
                                         isAuthenticated={this.state.isAuthenticated}
                                         handleFormChange={this.handleFormChange}
                                         handleSubmitForm={this.handleSubmitForm}
-                                    />)} 
+                                    />)}
                                 />
 
                                 <Route exact path='/' render={() => (
@@ -213,12 +220,12 @@ class App extends Component {
                                         <Count
                                             users={this.state.users}
                                         />
-                                        <h1>Dashboard</h1><hr/>
-                                        { this.state.isAuthenticated &&
+                                        <h1>Dashboard</h1><hr />
+                                        {this.state.isAuthenticated &&
                                             <LogForm
-                                            value={this.state.task}
-                                            handleLogFormChange={this.handleLogFormChange}
-                                            handleSubmitLogForm={this.handleSubmitLogForm}
+                                                value={this.state.task}
+                                                handleLogFormChange={this.handleLogFormChange}
+                                                handleSubmitLogForm={this.handleSubmitLogForm}
                                             />
                                         }
                                         <br />
@@ -226,7 +233,7 @@ class App extends Component {
                                             tasks={this.state.tasks}
                                             users={this.state.users}
                                         />
-                                        <h1>History</h1><hr/>
+                                        <h1>History</h1><hr />
                                         <History
                                             tasks={this.state.tasks}
                                             email={this.state.email}
@@ -245,7 +252,7 @@ class App extends Component {
 
                                 /> */}
 
-                                <Route 
+                                <Route
                                     exact path='/logout' render={() => (
                                         <Logout
                                             logoutUser={this.logoutUser}

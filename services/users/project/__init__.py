@@ -20,7 +20,9 @@ bcrypt = Bcrypt()
 def create_app(script_info=None):
 
     # instantiate the app
-    app = Flask(__name__)
+    app = Flask(__name__,
+        static_url_path='', 
+        static_folder='build')
 
     # enable CORS
     CORS(app)
