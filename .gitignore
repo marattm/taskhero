@@ -11,9 +11,6 @@ venv
 ## python
 __pycache__
 
-## docker
-.dockerignore
-
 ## code coverage
 htmlcov
 build/
