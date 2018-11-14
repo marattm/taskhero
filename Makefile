@@ -12,17 +12,33 @@ build:
 	# Build react app.
 	sh ./scripts/build.sh
 
-test:
+test-client:
 	# Test react app.
-	sh ./scripts/test.sh
+	sh ./scripts/tests-client.sh
+
+test-backend:
+	# Test backend service.
+	sh ./scripts/tests-backend.sh
+
+cov:
+	# Run tests and converage of the backend servive.
+	sh ./scripts/cov-users.sh
+
+flake:
+	# Run flake test.
+	sh ./scripts/flake.sh
+
+initdb:
+	# Initialize DB.
+	sh ./scripts/db-start.sh
+
+migrate:
+	# Migrate DB.
+	sh ./scripts/migrate.sh
 
 deploy:
 	# Deploy staging app to docker
 	sh ./scripts/deploy.sh
-
-clean:
-	# Clean the container used.
-	sh ./scripts/clean.sh
 
 setup:
 	# Setup heroku. (One time only)
