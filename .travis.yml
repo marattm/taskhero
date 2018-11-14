@@ -1,24 +1,40 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
 env:
   DOCKER_COMPOSE_VERSION: 1.18.0
-
+branches:
+  only:
+  - master
+  - develop
+  - "/^(release).*$/"
+  - "/^(hotfix).*$/"
+  - "/^(feature).*$/"
+language: node_js
+node_js:
+- '9'
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
-before_script:
-  - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
-  - docker-compose -f Docker-compose-dev.yml up --build -d
-
+- wget -qO- https://toolbelt.heroku.com/install.sh | sh
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+install:
+- yarn --cwd services/client install
 script:
-  # - docker-compose -f Docker-compose-dev.yml run users python manage.py test
-  - docker-compose -f Docker-compose-dev.yml run users flake8 project
-
-after_script:
-  - docker-compose -f Docker-compose-dev.yml down
+- yarn --cwd services/client build
+- docker build -t app services/users/
+deploy:
+- provider: script
+  script: docker tag app registry.heroku.com/$HEROKU_APP_NAME_PROD/web; docker push
+    app; docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web; heroku container:release
+    web --app $HEROKU_APP_NAME_PROD
+  on:
+    branch: master
+- provider: script
+  script: docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; docker push
+    app; docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; heroku container:release
+    web --app $HEROKU_APP_NAME_STAGE
+  on:
+    all_branches: true
+notifications:
+  slack:
+    secure: A0tPmZe8IHCjP79Tq9XheF4Cf4uMKmFCbR+O93k+GvqiHwXjzqJkShOH4YSx4sBqcMiWM4CEwwV7AK7J3rzpgVbKOZVLM7ZxIcxP8Y4t87U66hzjfFTW3FfDem+gRhcN/iUycHqWbhf9L+4wVTXHDh3OG+Ri0b+bxSAhOkD/rp+de7k1cFZinHS12fTkIP3rDAsbgDQJiCFt/t7prDLJpQjn2pZA/gMN+hmFUtEdC/SK1wydIhcFd4JPsD7ZApMt1YhyUPd7t0EO0fZQnC9WRA6r3BRTaf4GV0P4y0ck/pcwZqe+oYoaYFUoRdCorND8IC0oAPUeeGnDI5JBxx7VjdgrFU/e6FfsHg1eEKkxwuOlRSDHE1ytGRjal97GNroYkTGs4TdAQsmyUPoKyC3BQXPuwGf5ZrZBsIN6sXPN27eZbc/Uil9PWi8nONimYJTP7A0T4xHxNhVkklnNQJT3hxTikU5VLs0M7gGk/ujI2gpanHZC/e2EJJFVii+1dG+XksvZ4oHbQ0scdK3Xgxu1UnduskZdW8MZayEG7MZR6iFiAsT3HryT8Fk5b/ZgDMxwE75YPQwfIresGiMbhUK9vUwcmj/XuTzQus/AudRvFLUgW70WvLXNU5ZnBGQfmz8yW4Y7Ze+Yz3CrpzhJ8QpfmA2AumM2bl6RHOLP39KIFSQ=

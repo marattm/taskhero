@@ -1,7 +1,7 @@
 # services/users/project/api/users.py
 
 
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request, render_template, send_from_directory
 from sqlalchemy import exc
 import datetime
 
@@ -20,18 +20,27 @@ def ping_pong():
     })
 
 
-@users_blueprint.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        db.session.add(User(username=username,
-                            email=email,
-                            password=password))
-        db.session.commit()
-    users = User.query.all()
-    return render_template('index.html', users=users)
+@users_blueprint.route('/', defaults={'path': ''})
+@users_blueprint.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists("build/" + path):
+        return send_from_directory('build/', path)
+    else:
+        return send_from_directory('build', 'index.html')
+
+
+# @users_blueprint.route('/', methods=['GET', 'POST'])
+# def index():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         email = request.form['email']
+#         password = request.form['password']
+#         db.session.add(User(username=username,
+#                             email=email,
+#                             password=password))
+#         db.session.commit()
+#     users = User.query.all()
+#     return render_template('index.html', users=users)
 
 
 @users_blueprint.route('/users', methods=['POST'])
