@@ -18,10 +18,10 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 install:
-  - yarn install
+  - yarn --cwd services/client install
 script:
-  - yarn build
-  - docker build -t app .
+  - yarn --cwd services/client build
+  - docker build -t app services/users/
 deploy:
   - provider: script
     script:
