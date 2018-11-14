@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1 && react-scripts start",
-    "build": "react-scripts build  && rm -rf ../../services/users/project/build/ && mv build/ ../../services/users/project/",
+    "build": "CI=false react-scripts build  && rm -rf ../../services/users/project/build/ && mv build/ ../../services/users/project/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "axios": "^0.17.1",
