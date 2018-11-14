@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1 && react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build  && rm -rf ../../services/users/project/build/ && mv build/ ../../services/users/project/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "axios": "^0.17.1",
@@ -25,5 +25,6 @@
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1"
-  }
+  },
+  "proxy": "http://localhost:5003"
 }
