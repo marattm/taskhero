@@ -1,6 +1,6 @@
 sudo: required
 services:
-  - docker
+- docker
 env:
   DOCKER_COMPOSE_VERSION: 1.18.0
 branches:
@@ -12,33 +12,29 @@ branches:
   - "/^(feature).*$/"
 language: node_js
 node_js:
-  - '9'
+- '9'
 before_install:
-  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+- wget -qO- https://toolbelt.heroku.com/install.sh | sh
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 install:
-  - yarn --cwd services/client install
+- yarn --cwd services/client install
 script:
-  - yarn --cwd services/client build
-  - docker build -t app services/users/
+- yarn --cwd services/client build
+- docker build -t app services/users/
 deploy:
-  - provider: script
-    script:
-      docker tag app registry.heroku.com/$HEROKU_APP_NAME_PROD/web;
-      docker push app;
-      docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web;
-      heroku container:release web --app $HEROKU_APP_NAME_PROD
-    on:
-      branch: master
-  - provider: script
-    script:
-      docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
-      docker push app;
-      docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
-      heroku container:release web --app $HEROKU_APP_NAME_STAGE
-    on:
-      all_branches: true
+- provider: script
+  script: docker tag app registry.heroku.com/$HEROKU_APP_NAME_PROD/web; docker push
+    app; docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web; heroku container:release
+    web --app $HEROKU_APP_NAME_PROD
+  on:
+    branch: master
+- provider: script
+  script: docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; docker push
+    app; docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; heroku container:release
+    web --app $HEROKU_APP_NAME_STAGE
+  on:
+    all_branches: true
 notifications:
   slack:
-    secure: E73VMh/6VAsuImysVAez1v9X+jQafpB63u3vEv01ozA/jA5pVpqvjyvn46XMr9+XRTUV20vwVKTrewgHJr3RQyjIi2tfUJxSb4/7QCAoqYMgWmyy1zBgi2FboLmB5paIOJvdCbBXRCxU8FICgD6HMCdg2j4V8SJPxLZPIfJkNxH7HPZdJHYUrMLbSTdWTI2PJ5aeb8rDrQ3UUmzOf8mLL71rmCD2OKbT5/THZDonEcD9vzdY5blnDTPpHYAfkdV2IdceTa6SoSwIdme1XwIJdqFBp7AmcyeTCMRJLhy5hK2KtlqDKfCEepIkwkg/kcfaqz+pGJihilEVv7nAAYAglEQ1SBMvEnixaVeu0QXEWDiWK0+N1sHh3Ilvu7LmbtfIr5ETRjIgClhDlS5x0a/kf5Q5LHSJQT6wEjcStLF0FB0rVdAOZ8ZnAWzUtt20HLw+nC+g9JMU6lg2Ii2FDRPCWgKEBawiABKCeyEtLLqAoT1bR+PUSuCqqLW038bxRAEbkjVWgLVvdiAZKKIAdx49NRaNiPwqJHvfQi2zaUPG7iDHOGpnIEYi8pAEU2OyMP/sURfOWjDCiN9KYORzlOGfjxIRsGW5q20VjyuTqy90OhDm5KzgK8paBrtxEufYWpofX/XCa8PSvxTjvEgIl6YJSAl/yxcV+ZJ8NT9noixXXOk=
+    secure: A0tPmZe8IHCjP79Tq9XheF4Cf4uMKmFCbR+O93k+GvqiHwXjzqJkShOH4YSx4sBqcMiWM4CEwwV7AK7J3rzpgVbKOZVLM7ZxIcxP8Y4t87U66hzjfFTW3FfDem+gRhcN/iUycHqWbhf9L+4wVTXHDh3OG+Ri0b+bxSAhOkD/rp+de7k1cFZinHS12fTkIP3rDAsbgDQJiCFt/t7prDLJpQjn2pZA/gMN+hmFUtEdC/SK1wydIhcFd4JPsD7ZApMt1YhyUPd7t0EO0fZQnC9WRA6r3BRTaf4GV0P4y0ck/pcwZqe+oYoaYFUoRdCorND8IC0oAPUeeGnDI5JBxx7VjdgrFU/e6FfsHg1eEKkxwuOlRSDHE1ytGRjal97GNroYkTGs4TdAQsmyUPoKyC3BQXPuwGf5ZrZBsIN6sXPN27eZbc/Uil9PWi8nONimYJTP7A0T4xHxNhVkklnNQJT3hxTikU5VLs0M7gGk/ujI2gpanHZC/e2EJJFVii+1dG+XksvZ4oHbQ0scdK3Xgxu1UnduskZdW8MZayEG7MZR6iFiAsT3HryT8Fk5b/ZgDMxwE75YPQwfIresGiMbhUK9vUwcmj/XuTzQus/AudRvFLUgW70WvLXNU5ZnBGQfmz8yW4Y7Ze+Yz3CrpzhJ8QpfmA2AumM2bl6RHOLP39KIFSQ=
