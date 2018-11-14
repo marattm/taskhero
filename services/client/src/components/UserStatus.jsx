@@ -21,7 +21,8 @@ class UserStatus extends Component {
 
     getUserStatus() {
         const options = {
-            url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/status`,
+            // url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/status`,
+            url: `auth/status`,
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ class UserStatus extends Component {
                 console.log(error);
             });
     };
-    
+
     render() {
         if (this.props.isAuthenticated) {
             return (
@@ -59,7 +60,7 @@ class UserStatus extends Component {
         }
         return (
             <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>
-        ) 
+        )
     };
 };
 

@@ -1,28 +1,31 @@
-FROM python:3.6.4
+FROM python:3.6.4-slim
 
-# install environment dependencies
-RUN apt-get update -yqq \
-  && apt-get install -yqq --no-install-recommends \
-    netcat \
-  && apt-get -q clean
 
-# set working directory
+## make a local directory
 RUN mkdir -p /usr/src/app
+# set "app" as the working directory from which CMD, RUN, ADD references
 WORKDIR /usr/src/app
 
-# add requirements
-COPY ./requirements.txt /usr/src/app/requirements.txt
+# now copy all the files in this directory to /code
+ADD . /usr/src/app
 
-# install requirements
+# Upgrade pip
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# RUN pip install --upgrade setuptools
+# pip install the local requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install -r requirements.txt
 
-# add entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
-# add app
-COPY . /usr/src/app
+# # DEV env
+# RUN export FLASK_APP='app.py'
+# # RUN export FLASK_DEBUG=1
+# ENV FLASK_APP='app.py'
+# # ENV FLASK_DEBUG=1
 
-# run server
-CMD ["./entrypoint.sh"]
+# # DEV run server 
+# CMD ["./entrypoint.sh"]
+
+# PROD run server
+CMD gunicorn manage:app --bind 0.0.0.0:$PORT
 
