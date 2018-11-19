@@ -10,7 +10,7 @@ import Register from './pages/auth/register/Register'
 import Logout from './pages/auth/logout/Logout'
 import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
-import Settings from './pages/settings/Settings'
+import AccountSettings from './pages/settings/AccountSettings'
 import Footer from './common/Footer'
 
 class App extends Component {
@@ -325,7 +325,7 @@ class App extends Component {
 
                                 {this.state.isAuthenticated &&
                                     <Route path='/settings' render={() => (
-                                        <Settings />
+                                        <AccountSettings />
                                     )} />
                                 }
 

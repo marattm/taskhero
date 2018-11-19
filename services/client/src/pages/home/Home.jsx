@@ -8,7 +8,7 @@ import History from '../../common/History'
 import Count from './count/Count'
 import LogForm from '../../common/LogForm'
 import Dashboard from './dashboard/Dashboard'
-import Settings from '../settings/Settings'
+import Settings from '../settings/AccountSettings'
 import Logs from '../logs/Logs'
 
 

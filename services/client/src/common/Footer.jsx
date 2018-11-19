@@ -17,7 +17,7 @@ export default class Footer extends Component {
 
                             Made with <i class="fas fa-heart" style={{ color: "#fb866a" }}></i> by <a href='https://github.com/marattm'>Marat T Monnié</a> • <a href="https://github.com/marattm/taskhero"> <i class="fab fa-github-square" style={{ color: "#722F8D" }}></i> Source </a>
 
-                            • <i class="fas fa-pencil-alt" style={{ color: "green" }}></i><a href="https://themes.3rdwavemedia.com" target="_blank"> Xiaoying Riley </a>
+                            {/* • <i class="fas fa-pencil-alt" style={{ color: "green" }}></i><a href="https://themes.3rdwavemedia.com" target="_blank"> Xiaoying Riley </a> */}
 
                             • <a href=''> <i class="fas fa-at" style={{ color: "orange" }}></i> task.heroes.app@gmail.com</a>
 
