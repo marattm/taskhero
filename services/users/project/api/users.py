@@ -4,6 +4,9 @@
 from flask import Blueprint, jsonify, request, render_template, send_from_directory
 from sqlalchemy import exc
 import datetime
+import sys
+
+
 
 from project.api.models import User, History
 from project import db
@@ -43,6 +46,47 @@ def serve(path):
 #     return render_template('index.html', users=users)
 
 
+@users_blueprint.route('/user', methods=['POST'])
+# @authenticate
+def send_user_info():
+    post_data = request.get_json()
+    response_object = {
+        'status': 'Fail',
+        'message': 'Invalid payload.',
+        'data': {
+            'id': '',
+            'username': '',
+            'email': ''
+        }
+    }
+    # if not is_admin(resp):
+    #     response_object['message'] = 'You do not have permission to do that.'
+    #     return jsonify(response_object), 401
+    if not post_data:
+        return jsonify(response_object), 400
+    auth_token = post_data.get('auth_token')
+    # print(auth_token, file=sys.stderr)
+    try:
+        payload_data = User.decode_auth_token(auth_token)
+        if not payload_data:
+            response_object['message'] = 'Sorry. Wrong token.'
+            return jsonify(response_object), 400
+        else:
+            try:
+                response_object['data']['id'] = payload_data['id']
+                response_object['data']['username'] = payload_data['username']
+                response_object['data']['email'] = payload_data['email'] 
+                response_object['status'] = 'success'
+                response_object['message'] = 'Token decoded.'
+                return jsonify(response_object), 201
+            except:
+                response_object['message'] = payload_data
+            return jsonify(response_object), 400
+    except exc.IntegrityError as e:
+        return jsonify(response_object), 400
+
+
+
 @users_blueprint.route('/users', methods=['POST'])
 @authenticate
 def add_user(resp):
@@ -74,7 +118,6 @@ def add_user(resp):
     except exc.IntegrityError as e:
         db.session.rollback()
         return jsonify(response_object), 400
-
 
 @users_blueprint.route('/users', methods=['GET'])
 def get_all_users():

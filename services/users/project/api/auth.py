@@ -11,6 +11,32 @@ from project.api.utils import authenticate
 
 auth_blueprint = Blueprint('auth', __name__)
 
+@auth_blueprint.route('/auth/guest', methods=['GET'])
+def log_as_guest():
+    response_object = {
+        'status': 'fail',
+        'message': 'Invalid payload.'
+    }
+    email = 'guest@guest.com'
+    password = 'Guest0123'
+    try:
+        # fetch the user data
+        user = User.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            auth_token = user.encode_auth_token(user.id, user.username, user.email)
+            if auth_token:
+                response_object['status'] = 'success'
+                response_object['message'] = 'Successfully logged in.'
+                response_object['username'] = user.username
+                response_object['email'] = user.email
+                response_object['auth_token'] = auth_token.decode()
+                return jsonify(response_object), 200
+        else:
+            response_object['message'] = 'User does not exist.'
+            return jsonify(response_object), 404
+    except Exception as e:
+        response_object['message'] = 'Try again.'
+        return jsonify(response_object), 500
 
 @auth_blueprint.route('/auth/register', methods=['POST'])
 def register_user():
@@ -39,10 +65,10 @@ def register_user():
             db.session.add(new_user)
             db.session.commit()
             # generate auth token
-            auth_token = new_user.encode_auth_token(new_user.id)
+            auth_token = new_user.encode_auth_token(new_user.id, new_user.username, new_user.email)
             response_object['status'] = 'success'
             response_object['message'] = 'Successfully registered.'
-            response_object['auth_token'] = auth_token.decode()
+            # response_object['auth_token'] = auth_token.decode()
             return jsonify(response_object), 201
         else:
             response_object['message'] = 'Sorry. That user already exists.'
@@ -69,10 +95,12 @@ def login_user():
         # fetch the user data
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            auth_token = user.encode_auth_token(user.id)
+            auth_token = user.encode_auth_token(user.id, user.username, user.email)
             if auth_token:
                 response_object['status'] = 'success'
                 response_object['message'] = 'Successfully logged in.'
+                response_object['username'] = user.username
+                response_object['email'] = user.email
                 response_object['auth_token'] = auth_token.decode()
                 return jsonify(response_object), 200
         else:

@@ -21,7 +21,6 @@ class UserStatus extends Component {
 
     getUserStatus() {
         const options = {
-            // url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/status`,
             url: `auth/status`,
             method: 'get',
             headers: {
@@ -31,8 +30,6 @@ class UserStatus extends Component {
         };
         return axios(options)
             .then((res) => {
-                // console.log(res);
-                // console.log(res.data.data);
                 this.setState({
                     email: res.data.data.email,
                     id: res.data.data.id,
