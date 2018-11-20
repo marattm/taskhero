@@ -187,7 +187,7 @@ class App extends Component {
             email: this.state.email,
             task: this.state.task
         }
-        return axios.post(`tasks/task_log`, data)
+        return axios.post(`tasks`, data)
             .then((res) => {
                 this.getUsers()
                 this.getTasks()
@@ -202,7 +202,7 @@ class App extends Component {
             .catch((err) => { console.log(err) })
     }
     handleClickDel(data) {
-        axios.post(`tasks/del`, data)
+        axios.delete(`tasks/` + data.id)
             .then((res) => {
                 this.getUsers()
                 this.getTasks()

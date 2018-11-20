@@ -42,6 +42,8 @@ def create_app(script_info=None):
     app.register_blueprint(users_blueprint)
     from project.api.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
+    from project.api.tasks import tasks_blueprint
+    app.register_blueprint(tasks_blueprint)
 
     # shell context for flask cli
     app.shell_context_processor({'app': app, 'db': db})
