@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Switch, Route } from 'react-router-dom'
+import React, { Component, Fragment } from 'react'
+import axios from 'axios'
+import { Route, HashRouter as Router } from 'react-router-dom'
 
-import History from './components/History';
-import About from './components/About';
-import NavBar from './components/NavBar';
-import Form from './components/Form';
-import Logout from './components/Logout';
-import UserStatus from './components/UserStatus';
-import Count from './components/Count';
-import Dashboard from './components/Dashboard';
-import LogForm from './components/LogForm';
+import NavBar from './common/NavBar'
+import Index from './pages/index'
+import Account from './pages/auth/Account'
+import Login from './pages/auth/login/Login'
+import Register from './pages/auth/register/Register'
+import Logout from './pages/auth/logout/Logout'
+import Home from './pages/home/Home'
+import Profile from './pages/profile/Profile'
+import AccountSettings from './pages/settings/AccountSettings'
+import Footer from './common/Footer'
 
 class App extends Component {
     constructor() {
-        super();
+        super()
         this.state = {
             users: [],
             tasks: [],
@@ -22,7 +23,7 @@ class App extends Component {
             email: '',
             active: '',
             admin: '',
-            title: 'Task Hero',
+            title: 'Task Heroes',
             formData: {
                 username: '',
                 email: '',
@@ -35,78 +36,114 @@ class App extends Component {
             },
             task: "empty_dishwasher",
             task_id: ''
-        };
-        this.addUser = this.addUser.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmitForm = this.handleSubmitForm.bind(this);
-        this.handleFormChange = this.handleFormChange.bind(this);
-        this.ping = this.ping.bind(this);
-        this.logoutUser = this.logoutUser.bind(this);
-        this.handleLogFormChange = this.handleLogFormChange.bind(this);
-        this.handleSubmitLogForm = this.handleSubmitLogForm.bind(this);
-        this.handleClickDel = this.handleClickDel.bind(this);
-    };
+        }
+        // this.addUser = this.addUser.bind(this)
+        this.authenticateUser = this.authenticateUser.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmitForm = this.handleSubmitForm.bind(this)
+        this.handleSubmitForm2 = this.handleSubmitForm2.bind(this)
+        this.handleFormChange = this.handleFormChange.bind(this)
+        this.ping = this.ping.bind(this)
+        this.logoutUser = this.logoutUser.bind(this)
+        this.handleLogFormChange = this.handleLogFormChange.bind(this)
+        this.handleSubmitLogForm = this.handleSubmitLogForm.bind(this)
+        this.handleClickDel = this.handleClickDel.bind(this)
+        this.logAsGuest = this.logAsGuest.bind(this)
+    }
 
     componentDidMount() {
-        this.getUsers();
-        this.getTasks();
-        // this.ping();
-    };
+        this.getUsers()
+        this.getTasks()
+        // this.authenticateUser()
+    }
+
+    authenticateUser() {
+        console.log('hello1')
+        if (window.localStorage.getItem('auth_token')) {
+            console.log('hello2')
+            let data = {
+                authToken: window.localStorage.getItem('auth_token')
+            }
+            axios.post(`/user`, data)
+                .then(res => {
+                    console.log(res);
+                })
+        } else {
+            console.log('noting')
+        }
+    }
 
     getUsers() {
-        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
         axios.get(`users`)
-            .then((res) => { this.setState({ users: res.data.data.users }); })
-            .catch((err) => { console.log(err); });
-    };
-    addUser(event) {
-        event.preventDefault();
-        const data = {
-            username: this.state.username,
-            email: this.state.email
-        };
-        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
-        axios.post(`users`, data)
-            .then((res) => {
-                this.getUsers();
-                this.setState({
-                    formData: { username: '', email: '', password: '' },
-                    username: '',
-                    email: '',
-                });
-            })
-            .catch((err) => { console.log(err); });
-    };
+            .then((res) => { this.setState({ users: res.data.data.users }) })
+            .catch((err) => { console.log(err) })
+    }
+
+    // addUser(event) {
+    //     event.preventDefault()
+    //     const data = {
+    //         username: this.state.username,
+    //         email: this.state.email
+    //     }
+    //     axios.post(`users`, data)
+    //         .then((res) => {
+    //             this.getUsers()
+    //             this.setState({
+    //                 formData: { username: '', email: '', password: '' },
+    //                 username: '',
+    //                 email: '',
+    //             })
+    //         })
+    //         .catch((err) => { console.log(err) })
+    // }
+
     handleSubmitForm(event) {
-        event.preventDefault();
-        const formType = window.location.href.split('/').reverse()[0];
+        event.preventDefault()
+        const formType = window.location.href.split('/').reverse()[0]
         let data = {
             email: this.state.formData.email,
             password: this.state.formData.password,
-        };
-        if (formType === 'register') {
-            data.username = this.state.formData.username;
         }
-        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`, data)
+        if (formType === 'register') {
+            data.username = this.state.formData.username
+        }
         axios.post(`auth/${formType}`, data)
             .then((res) => {
-                this.getUsers();
+                this.getUsers()
                 this.setState({
                     formData: { username: '', email: '', password: '' },
                     username: this.state.formData.username,
                     email: this.state.formData.email,
                     isAuthenticated: true
-                });
-                // console.log(res.data);
-                localStorage.setItem("auth_token", res.data.auth_token);
-                // console.log("isAuthenticated: " + this.state.isAuthenticated);
-                // console.log(this.state);
-
+                })
+                localStorage.setItem("auth_token", res.data.auth_token)
             })
-            .catch((err) => { console.log(err); });
-    };
+            .catch((err) => { console.log(err) })
+    }
+    handleSubmitForm2(event, formType) {
+        event.preventDefault()
+        let data = {
+            email: this.state.formData.email,
+            password: this.state.formData.password,
+        }
+        if (formType === 'register') {
+            data.username = this.state.formData.username
+        }
+        axios.post(`auth/${formType}`, data)
+            .then((res) => {
+                this.getUsers()
+                this.setState({
+                    formData: { username: '', email: '', password: '' },
+                    username: res.data.username,
+                    email: res.data.email,
+                    isAuthenticated: true
+                })
+                localStorage.setItem("auth_token", res.data.auth_token)
+                window.location.hash = 'dashboard'
+            })
+            .catch((err) => { console.log(err) })
+    }
     ping() {
-        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/ping`)
         axios.get(`users/ping`)
             .then((res) => {
                 if (this.state.pingData.status === "success") {
@@ -125,135 +162,175 @@ class App extends Component {
                     })
                 }
             })
-            .catch((err) => { console.log(err); });
-    };
+            .catch((err) => { console.log(err) })
+    }
     logoutUser() {
-        window.localStorage.clear();
-        this.setState({ isAuthenticated: false, username: '', email: '' });
-        // console.log(this.state);
-
+        window.localStorage.clear()
+        this.setState({ isAuthenticated: false, username: '', email: '' })
     }
     handleChange(event) {
-        const obj = {};
-        obj[event.target.name] = event.target.value;
-        this.setState(obj);
-    };
+        const obj = {}
+        obj[event.target.name] = event.target.value
+        this.setState(obj)
+    }
     handleFormChange(event) {
-        const obj = this.state.formData;
-        obj[event.target.name] = event.target.value;
-        this.setState(obj);
-    };
+        const obj = this.state.formData
+        obj[event.target.name] = event.target.value
+        this.setState(obj)
+    }
     handleLogFormChange(event) {
-        this.setState({ task: event.target.value });
-    };
+        this.setState({ task: event.target.value })
+    }
     handleSubmitLogForm(event) {
-        event.preventDefault();
+        event.preventDefault()
         let data = {
             email: this.state.email,
             task: this.state.task
         }
-        // return axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/task_log`, data)
         return axios.post(`tasks/task_log`, data)
             .then((res) => {
-                this.getUsers();
-                this.getTasks();
-                // console.log(res.data)
+                this.getUsers()
+                this.getTasks()
             })
             .catch((error) => {
-                console.log(error);
-            });
-    };
+                console.log(error)
+            })
+    }
     getTasks() {
-        // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks`)
         axios.get(`tasks`)
-            .then((res) => { this.setState({ tasks: res.data.data.tasks }); })
-            .catch((err) => { console.log(err); });
-    };
+            .then((res) => { this.setState({ tasks: res.data.data.tasks }) })
+            .catch((err) => { console.log(err) })
+    }
     handleClickDel(data) {
-        // axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/tasks/del`, data)
         axios.post(`tasks/del`, data)
             .then((res) => {
-                this.getUsers();
-                this.getTasks();
-                // console.log(res.data)
+                this.getUsers()
+                this.getTasks()
             })
             .catch((error) => {
-                console.log(error);
-            });
-    };
+                console.log(error)
+            })
+    }
+
+    logAsGuest() {
+        console.log('logging as guest')
+        axios.get(`auth/guest`)
+            .then(res => {
+                console.log(res)
+                this.getUsers()
+                this.setState({
+                    formData: { username: '', email: '', password: '' },
+                    username: res.data.username,
+                    email: res.data.email,
+                    isAuthenticated: true
+                })
+                localStorage.setItem("auth_token", res.data.auth_token)
+                window.location.hash = 'dashboard'
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     render() {
         return (
-            <div>
-                <NavBar
-                    title={this.state.title}
-                    isAuthenticated={this.state.isAuthenticated}
-                />
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-6"> <br />
-                            <Switch>
+            <Router>
+                <div>
+                    {/* <button onClick={this.authenticateUser}>
+                        Check Id
+                    </button> */}
+                    <NavBar title={this.state.title}
+                        isAuthenticated={this.state.isAuthenticated}
+                        username={this.state.username}
+                        logAsGuest={this.logAsGuest}
+                        formData={this.state.formData}
+                        isAuthenticated={this.state.isAuthenticated}
+                        handleFormChange={this.handleFormChange}
+                        handleSubmitForm={this.handleSubmitForm2}
+                    />
 
-                                <Route exact path='/register' render={() => (
-                                    <Form
-                                        formType={'Register'}
-                                        formData={this.state.formData}
-                                        isAuthenticated={this.state.isAuthenticated}
-                                        handleFormChange={this.handleFormChange}
-                                        handleSubmitForm={this.handleSubmitForm}
-                                    />)}
-                                />
+                    <div className="container" id='app'>
+                        <div className="container">
+                            {/* <div className="row"> */}
+                            <div className=""> <br />
+                                {/* <div className="col-md-6"> <br /> */}
 
-                                <Route exact path='/login' render={() => (
-                                    <Form
+                                <Route exact path='/' render={() => (
+                                    <Index
                                         formType={'Login'}
                                         formData={this.state.formData}
                                         isAuthenticated={this.state.isAuthenticated}
                                         handleFormChange={this.handleFormChange}
-                                        handleSubmitForm={this.handleSubmitForm}
-                                    />)}
-                                />
+                                        handleSubmitForm={this.handleSubmitForm2}
+                                    />
+                                )} />
+                                {/* {!this.state.isAuthenticated && */}
+                                <Route path='/account' render={() => (
+                                    <Account
+                                        formData={this.state.formData}
+                                        isAuthenticated={this.state.isAuthenticated}
+                                        handleFormChange={this.handleFormChange}
+                                        handleSubmitForm={this.handleSubmitForm2}
+                                        logAsGuest={this.logAsGuest}
+                                    />
+                                )} />
+                                {/* } */}
 
-                                <Route exact path='/' render={() => (
-                                    <div>
-                                        <h1>MVP Brat</h1><hr />
-                                        <Count
-                                            users={this.state.users}
-                                        />
-                                        <h1>Dashboard</h1><hr />
-                                        {this.state.isAuthenticated &&
-                                            <LogForm
-                                                value={this.state.task}
-                                                handleLogFormChange={this.handleLogFormChange}
-                                                handleSubmitLogForm={this.handleSubmitLogForm}
+                                {!this.state.isAuthenticated &&
+                                    <Fragment>
+
+                                        <Route path='/register' render={() => (
+                                            <Register
+                                                formData={this.state.formData}
+                                                isAuthenticated={this.state.isAuthenticated}
+                                                handleFormChange={this.handleFormChange}
+                                                handleSubmitForm={this.handleSubmitForm2}
                                             />
-                                        }
-                                        <br />
-                                        <Dashboard
+                                        )} />
+
+                                        <Route path='/login' render={() => (
+                                            <Login
+                                                formData={this.state.formData}
+                                                isAuthenticated={this.state.isAuthenticated}
+                                                handleFormChange={this.handleFormChange}
+                                                handleSubmitForm={this.handleSubmitForm2}
+                                            />
+                                        )} />
+                                    </Fragment>
+                                }
+
+                                {this.state.isAuthenticated &&
+                                    <Route path='/dashboard' render={() => (
+                                        <Home
+                                            users={this.state.users}
+                                            username={this.state.username}
+                                            isAuthenticated={this.state.isAuthenticated}
+                                            value={this.state.task}
+                                            handleLogFormChange={this.handleLogFormChange}
+                                            handleSubmitLogForm={this.handleSubmitLogForm}
                                             tasks={this.state.tasks}
                                             users={this.state.users}
-                                        />
-                                        <h1>History</h1><hr />
-                                        <History
-                                            tasks={this.state.tasks}
                                             email={this.state.email}
                                             handleClickDel={this.handleClickDel}
+                                            tasks={this.state.tasks}
                                         />
-                                    </div>
-                                )} />
+                                    )} />
+                                }
 
-                                {/* <Route
-                                    exact path='/about' render={() => (
-                                        <About 
-                                            pingData={this.state.pingData}
-                                            ping={this.ping}
-                                        />
-                                    )}
+                                {this.state.isAuthenticated &&
+                                    <Route path='/profile' render={() => (
+                                        <Profile />
+                                    )} />
+                                }
 
-                                /> */}
+                                {this.state.isAuthenticated &&
+                                    <Route path='/settings' render={() => (
+                                        <AccountSettings />
+                                    )} />
+                                }
 
                                 <Route
-                                    exact path='/logout' render={() => (
+                                    path='/logout' render={() => (
                                         <Logout
                                             logoutUser={this.logoutUser}
                                             isAuthenticated={this.state.isAuthenticated}
@@ -261,19 +338,15 @@ class App extends Component {
                                     }
                                 />
 
-                                {/* <Route exact path='/status' render={() => (
-                                    <UserStatus
-                                        isAuthenticated={this.state.isAuthenticated}
-                                    />
-                                )} /> */}
+                                <Footer />
 
-                            </Switch>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Router>
         )
-    };
-};
+    }
+}
 
-export default App;
+export default App

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import React from 'react'
+import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
 
 const LogForm = (props) => {
@@ -8,7 +8,7 @@ const LogForm = (props) => {
             <form onSubmit={(event) => props.handleSubmitLogForm(event)}>
                 <FormGroup controlId="formControlsSelect" >
                     <ControlLabel>Choose a Task..</ControlLabel>
-                    <FormControl 
+                    <FormControl
                         componentClass="select"
                         placeholder="select"
                         value={props.value}
@@ -38,6 +38,6 @@ const LogForm = (props) => {
             </form>
         </div>
     )
-};
+}
 
-export default LogForm;
+export default LogForm

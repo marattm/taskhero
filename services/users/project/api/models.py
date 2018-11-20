@@ -117,7 +117,7 @@ class User(db.Model):
             ]
         }
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(self, user_id, username, email):
         """Generates the auth token"""
         try:
             payload = {
@@ -126,11 +126,14 @@ class User(db.Model):
                     seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS')
                 ),
                 'iat': datetime.datetime.utcnow(),
-                'sub': user_id
+                'sub': user_id,
+                'rub': username,
+                'dub': email
             }
             return jwt.encode(
                 payload,
-                current_app.config.get('SECRET_KEY'),
+                'secret',
+                # current_app.config.get('SECRET_KEY'),
                 algorithm='HS256'
             )
         except Exception as e:
@@ -141,10 +144,21 @@ class User(db.Model):
         """
         Decodes the auth token - :param auth_token: - :return: integer|string
         """
+        payload ={
+            'id':'',
+            'username':'',
+            'email':''
+        }
         try:
             payload = jwt.decode(
-                auth_token, current_app.config.get('SECRET_KEY'))
-            return payload['sub']
+                auth_token,
+                'secret'
+                # current_app.config.get('SECRET_KEY')
+                )
+            payload['id'] = payload['sub']
+            payload['username'] = payload['rub']
+            payload['email'] = payload['dub']
+            return payload
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
