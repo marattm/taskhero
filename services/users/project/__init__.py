@@ -44,6 +44,8 @@ def create_app(script_info=None):
     app.register_blueprint(auth_blueprint)
     from project.api.tasks import tasks_blueprint
     app.register_blueprint(tasks_blueprint)
+    from project.api.static_server import static_server_blueprint
+    app.register_blueprint(static_server_blueprint)
 
     # shell context for flask cli
     app.shell_context_processor({'app': app, 'db': db})

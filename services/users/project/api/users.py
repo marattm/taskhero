@@ -23,15 +23,6 @@ def ping_pong():
     })
 
 
-@users_blueprint.route('/', defaults={'path': ''})
-@users_blueprint.route('/<path:path>')
-def serve(path):
-    if path != "" and os.path.exists("build/" + path):
-        return send_from_directory('build/', path)
-    else:
-        return send_from_directory('build', 'index.html')
-
-
 # @users_blueprint.route('/', methods=['GET', 'POST'])
 # def index():
 #     if request.method == 'POST':
