@@ -38,13 +38,13 @@ def create_app(script_info=None):
     bcrypt.init_app(app)
 
     # register blueprints
-    from project.api.users import users_blueprint
+    from project.api.users.users import users_blueprint
     app.register_blueprint(users_blueprint)
-    from project.api.auth import auth_blueprint
+    from project.api.auth.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
-    from project.api.tasks import tasks_blueprint
+    from project.api.tasks.tasks import tasks_blueprint
     app.register_blueprint(tasks_blueprint)
-    from project.api.static_server import static_server_blueprint
+    from project.api.static_server.static_server import static_server_blueprint
     app.register_blueprint(static_server_blueprint)
 
     # shell context for flask cli
