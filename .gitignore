@@ -10,6 +10,7 @@ venv
 
 ## python
 __pycache__
+*.pyc
 
 ## code coverage
 htmlcov
