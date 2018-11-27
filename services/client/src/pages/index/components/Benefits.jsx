@@ -7,7 +7,7 @@ const Benefits = (props) => {
             <section class="benefits-section py-5">
                 <div class="container py-lg-5">
                     <h3 class="mb-5 text-center font-weight-bold">
-                        Change the way you clean your house, you're the new Heroes !</h3>
+                        Change the way you clean your house, you're the new Heroes!</h3>
                     <div class="row">
                         <div class="item col-12 col-lg-4">
                             <div class="item-inner text-center p-3 p-lg-5">

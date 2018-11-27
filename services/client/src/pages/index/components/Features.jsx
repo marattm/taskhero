@@ -76,7 +76,7 @@ const Features = (props) => {
                             <div class="card rounded border-0 shadow-lg">
                                 <div class="card-body p-4">
                                     <h5 class="card-title"><i class="far fa-calendar-alt mr-2 mr-lg-3 text-primary fa-lg fa-fw"></i>Plan weekly and monthly schedule goals</h5>
-                                    <p class="card-text">Doing house chores don't need to be overwhelming! Once you break down the tasks into daily, weekly, monthly, and seasonal goals, you'll see how little time it actually takes to keep your house clean. Task Heroes got your back, it allows you to take advantage of a seamless place to plan and log your households tasks.</p>
+                                    <p class="card-text">Doing house chores don't need to be overwhelming! Once you break down the tasks into daily, weekly, monthly, and seasonal goals, you'll see how little time it actually takes to keep your house clean. Task Heroes got your back, it allows you to take advantage of a seamless place to plan and log your household tasks.</p>
                                     {/* <a href="#">Learn more <span class="more-arrow">&rarr;</span></a> */}
                                 </div>
                             </div>
@@ -103,14 +103,14 @@ const Features = (props) => {
                                 <div class="card-body p-4">
                                     <h5 class="card-title"><i class="far fa-chart-bar mr-2 mr-lg-3 text-primary fa-lg fa-fw"></i>Check amazing stats about your house!
 							</h5>
-                                    <p class="card-text">You can check your households history, weekly, monthly and yearly stats. You will be amazed at how great you are! </p>
+                                    <p class="card-text">You can check your household's history, weekly, monthly and yearly stats. You will be amazed at how great you are! </p>
                                     {/* <a href="#">Learn more <span class="more-arrow">&rarr;</span></a> */}
                                 </div>
                             </div>
                             <div class="card rounded border-0 shadow-lg">
                                 <div class="card-body p-4">
                                     <h5 class="card-title"><i class="far fa-calendar-alt mr-2 mr-lg-3 text-primary fa-lg fa-fw"></i>Easy management</h5>
-                                    <p class="card-text"> We now every household is a living place where each of his members follows his passion and dream, allowing newcomers to be part of your amazing households. Hopefully, with Task Heroes you can invite new households members and add them into your households dashboard, as well as disable previous members.</p>
+                                    <p class="card-text"> We now every household is a living place where each of his members follows his passion and dream, allowing newcomers to be part of your amazing households. Hopefully, with Task Heroes you can invite new household members and add them into your household’s dashboard, as well as disable previous members.</p>
                                     {/* <a href="#">Learn more <span class="more-arrow">&rarr;</span></a> */}
                                 </div>
                             </div>
