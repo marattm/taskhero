@@ -1,8 +1,8 @@
 sudo: required
 services:
 - docker
-# env:
-  # DOCKER_COMPOSE_VERSION: 1.18.0
+env:
+  DOCKER_COMPOSE_VERSION: 1.18.0
 branches:
   only:
   - master
@@ -40,3 +40,4 @@ deploy:
 notifications:
   slack:
     secure: hnJ9CHWU+aoeIRl4tItLnWXaoM51R8c9J9P4k/FELcqaFLZIqzpUbl04+0i13vRDnF/mT8cThlI3vkivyYt+GMnGEyrOP3xLsHRovMASgqZC1BOPc/BLMgW8sHNRhJ4eQQD1DVTp6rEdAiGE3sc/FmoUx8xIMvDjUXevAmH5ZhMKNXrDCiyoRbpatkIGXs3iyPcIQs4vNljKtaVbXQlPMcQhrkXv9ZW/ejVjx7msYcTSDFknIb+5L+ScHS4bxdO6WO9reTfzfWj0JY4f1aWUxSjl3Yq+LpvGpc17f+ik8U5antuLY31bDV1z20y/+jY3CviVYwdJCg/BzqCGcTQPG/oBQiX0OVs+Lxu47qYDKec8zIBS0sA4JdEvL0xhyWkWQYU9w+2RJEIepe6wGLXRvTffTBCjhtTJp7buv3HnKyhWBiGB/A/vpDpSu5b/vupYTgUUsPOj2jHaAcFoXvDVN0mvaWCXymmRKk2M3fY7UljZVDep+qhd/oBAdnRdSmv7iy2EISk05pMXnzfJMiT/ERoAa16mnHUtGsDDzA9cZLfjNDVPgG/uCvXPJKYMhzqszeRrsTVwHveF7TpILTxf9nd0M0SiIIXLbm/x7WclxpIcLK3soSUEVZMUexnhocl9GNb93lmmL0cuiaaJk2f3woL6WxNOwa3NPTeXFsZ64hA=
+  email: false
