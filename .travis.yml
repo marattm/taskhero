@@ -1,8 +1,8 @@
 sudo: required
 services:
 - docker
-env:
-  DOCKER_COMPOSE_VERSION: 1.18.0
+# env:
+  # DOCKER_COMPOSE_VERSION: 1.18.0
 branches:
   only:
   - master
@@ -30,9 +30,11 @@ deploy:
   on:
     branch: master
 - provider: script
-  script: docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; docker push
-    app; docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web; heroku container:release
-    web --app $HEROKU_APP_NAME_STAGE
+  script: 
+    docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
+    # docker push app;
+    docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
+    heroku container:release web --app $HEROKU_APP_NAME_STAGE
   on:
     all_branches: true
 notifications:
