@@ -32,7 +32,6 @@ deploy:
 - provider: script
   script: 
     docker tag app registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
-    docker push app;
     docker push registry.heroku.com/$HEROKU_APP_NAME_STAGE/web;
     heroku container:release web --app $HEROKU_APP_NAME_STAGE
   on:
