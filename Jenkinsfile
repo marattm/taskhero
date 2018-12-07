@@ -8,10 +8,24 @@ pipeline {
   }
   stages {
     stage('build') {
-      steps {
-        sh '''yarn --cwd services/client install
-yarn --cwd services/client build
+      parallel {
+        stage('before install') {
+          steps {
+            sh '''wget -qO- https://toolbelt.heroku.com/install.sh | sh
 '''
+          }
+        }
+        stage('install') {
+          steps {
+            sh 'yarn --cwd services/client install'
+          }
+        }
+        stage('build') {
+          steps {
+            sh '''yarn --cwd services/client build
+docker build -t app services/users/'''
+          }
+        }
       }
     }
   }
