@@ -7,25 +7,25 @@ pipeline {
 
   }
   stages {
-    stage('build') {
+    stage('install') {
       parallel {
-        stage('before install') {
+        stage('herokucli') {
           steps {
             sh '''wget -qO- https://toolbelt.heroku.com/install.sh | sh
 '''
           }
         }
-        stage('install') {
+        stage('client') {
           steps {
             sh 'yarn --cwd services/client install'
           }
         }
-        stage('build') {
-          steps {
-            sh '''yarn --cwd services/client build
+      }
+    }
+    stage('build') {
+      steps {
+        sh '''yarn --cwd services/client build
 docker build -t app services/users/'''
-          }
-        }
       }
     }
   }
